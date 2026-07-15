@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>몬테비얀코 쳐묵 기행</title>
+
+    <!-- Matter.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #FDFBF7;
+            --line-color: #333333;
+            --font-main: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            --accent-green: #E2F0CB;
+            --accent-pink: #FFB7B2;
+            --danger: #FF6B6B;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #e0e0e0;
+            color: var(--line-color);
+            font-family: var(--font-main);
+            height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #app-container {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            #app-container {
+                width: 600px;
+                height: 600px;
+                border: 2px solid var(--line-color);
+                border-radius: 12px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            }
+        }
+
+        input, button {
+            font-family: var(--font-main);
+            border: 2px solid var(--line-color);
+            background: var(--bg-color);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        button {
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        button:active {
+            background: var(--line-color);
+            color: var(--bg-color);
+        }
+
+        /* 로그인 페이지 */
+        #login-page {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            background-color: var(--bg-color);
+            padding: 20px;
+        }
+
+        .login-box {
+            width: 80%;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* 💡 테두리 제거된 이미지 스타일 */
+        .hero-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border: none; /* 검은 테두리 제거 */
+            border-radius: 12px;
+            background: transparent; /* 흰 배경 이미지와 이질감 없도록 투명 처리 */
+            display: block;
+        }
+
+        /* 주소 표시 영역 */
+        .address-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 2px;
+            margin-bottom: -6px; /* 타이틀과의 간격 좁히기 */
+        }
+        
+        #camp-address {
+            font-size: 13px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        #copy-addr-btn {
+            padding: 4px 8px;
+            font-size: 11px;
+            border-radius: 6px;
+            background-color: var(--accent-green);
+            border: 1px solid var(--line-color);
+            cursor: pointer;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: -6px;
+        }
+
+        .login-box input {
+            width: 100%;
+        }
+
+        .input-icon-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-icon-wrapper input {
+            padding-right: 40px;
+        }
+
+        #toggle-pw-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+        }
+
+        #toggle-pw-btn:active {
+            background: transparent;
+        }
+
+        /* 메인 페이지 */
+        #main-page {
+            display: none;
+            height: 100%;
+            width: 100%;
+            flex-direction: column;
+        }
+
+        /* 상단 */
+        #top-bar {
+            height: 10%;
+            min-height: 50px;
+            border-bottom: 2px solid var(--line-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            font-weight: bold;
+            position: relative;
+            background: var(--bg-color);
+        }
+
+        /* 아레나 */
+        #arena {
+            height: 75%;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 45%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 45%, rgba(0,0,0,0) 100%);
+        }
+
+        .menu-ball {
+            position: absolute;
+            border: 2px solid var(--line-color);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.12);
+            user-select: none;
+            transition: opacity 0.25s, transform 0.2s;
+            transform-origin: center;
+            word-break: keep-all;
+            font-size: 14px;
+            padding: 6px;
+            z-index: 10;
+            overflow: hidden;
+            line-height: 1.2;
+            cursor: pointer;
+        }
+
+        .ball-user {
+            font-size: 0.7em;
+            color: #777;
+            font-weight: normal;
+            margin-bottom: 2px;
+            max-width: 90%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .ball-text {
+            font-weight: bold;
+            word-break: keep-all;
+        }
+
+        .menu-ball.dimmed {
+            opacity: 0.18;
+            pointer-events: none;
+        }
+
+        .menu-ball.highlight {
+            box-shadow: 0 0 16px rgba(0,0,0,0.2);
+            border-width: 3px;
+            z-index: 20;
+            transform: scale(1.04);
+        }
+
+        .delete-overlay {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--danger);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25em;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        /* 말풍선 스타일 */
+        .suggestion-bubble {
+            position: absolute;
+            z-index: 100;
+            transform: translate(-50%, -50%);
+        }
+
+        .bubble-content {
+            position: relative;
+            background: #fff;
+            border: 2px solid var(--line-color);
+            border-radius: 16px;
+            padding: 8px 14px;
+            font-weight: bold;
+            font-size: 13px;
+            white-space: nowrap;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .bubble-content::before {
+            content: '';
+            position: absolute;
+            bottom: -8px; 
+            left: 16px; 
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: var(--line-color) transparent transparent transparent;
+        }
+
+        .bubble-content::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; 
+            left: 18px; 
+            border-width: 6px 6px 0;
+            border-style: solid;
+            border-color: #fff transparent transparent transparent;
+        }
+
+        .bubble-input {
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 13px;
+            font-weight: bold;
+            font-family: var(--font-main);
+            width: 30px;
+            min-width: 30px;
+            text-align: center;
+            color: var(--line-color);
+        }
+
+        /* 하단 */
+        #bottom-bar {
+            height: 15%;
+            min-height: 70px;
+            border-top: 2px solid var(--line-color);
+            padding: 10px;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-color);
+        }
+
+        #menu-input {
+            flex: 2;
+            height: 45px;
+            min-width: 0;
+        }
+
+        #throw-btn {
+            flex: 1;
+            height: 45px;
+            min-width: 0;
+            background: var(--accent-green);
+            white-space: nowrap;
+        }
+
+        #my-menu-btn {
+            flex: 0 0 52px;
+            height: 45px;
+            min-width: 0;
+            background: var(--accent-pink);
+            white-space: nowrap;
+            font-size: 22px;
+            line-height: 1;
+            padding: 0;
+        }
+
+        #my-menu-btn.active {
+            background: var(--line-color);
+            color: var(--bg-color);
+        }
+
+        /* 모달 및 토스트 */
+        #modal { display: none; position: absolute; top: 12%; left: 4%; width: 92%; height: 74%; background: var(--bg-color); border: 2px solid var(--line-color); border-radius: 12px; z-index: 200; box-shadow: 4px 4px 0 rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; }
+        .modal-header { padding: 15px; border-bottom: 2px solid var(--line-color); display: flex; justify-content: space-between; align-items: center; font-weight: bold; background: #fff; flex: 0 0 auto; }
+        .modal-content { padding: 12px; background: var(--bg-color); flex: 1; overflow: hidden; display: grid; gap: 8px; align-content: start; }
+        .list-item { min-height: 44px; padding: 10px 8px; border: 1px solid #d8d8d8; border-radius: 10px; text-align: center; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; background: #fff; }
+        .empty-msg { text-align: center; padding: 30px; color: #888; font-size: 14px; grid-column: 1 / -1; align-self: center; justify-self: center; }
+        #toast { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) translateY(12px); opacity: 0; pointer-events: none; z-index: 400; min-width: 180px; max-width: 80%; padding: 14px 18px; border: 2px solid var(--line-color); background: #fff; border-radius: 14px; box-shadow: 4px 4px 0 rgba(0,0,0,0.18); text-align: center; font-weight: 700; transition: opacity 0.4s ease, transform 0.4s ease; }
+        #toast.show { opacity: 1; transform: translate(-50%, -50%) translateY(0); }
+    </style>
+</head>
+<body>
+
+<div id="app-container">
+    <div id="login-page">
+        <div class="login-box">
+            <!-- 여기에 직접 호스팅하신 일러스트 이미지 주소를 넣으세요 -->
+            <img class="hero-image" src="https://raw.githubusercontent.com/hey24blanket/camping-menu/refs/heads/main/ChatGPT%20Image%202026%EB%85%84%207%EC%9B%94%2015%EC%9D%BC%20%EC%98%A4%ED%9B%84%2001_26_45.png" alt="캠핑 이미지" />
+            
+            <div class="address-row">
+                <span id="camp-address">경기 포천시 이동면 늠바위길 181</span>
+                <button type="button" id="copy-addr-btn">복사</button>
+            </div>
+            
+            <h2 class="login-title">몬테비얀코 쳐묵 기행</h2>
+            
+            <input type="text" id="userid" placeholder="아이디 (띄어쓰기 없는 한글)" />
+            <p class="hint">DB 확인 후 없으면 자동 가입됩니다.</p>
+            <div class="input-icon-wrapper">
+                <input type="password" id="userpw" placeholder="비밀번호 (숫자 3자리)" inputmode="numeric" maxlength="3" />
+                <button type="button" id="toggle-pw-btn" aria-label="비밀번호 보기">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </button>
+            </div>
+            <button id="login-btn">들어가기</button>
+        </div>
+    </div>
+
+    <div id="main-page">
+        <div id="top-bar">
+            <div>메뉴: <span id="menu-count">0</span></div>
+            <button id="modal-btn">리스트</button>
+        </div>
+        <div id="arena"></div>
+        <div id="bottom-bar">
+            <input type="text" id="menu-input" placeholder="뭘 드실까요?" />
+            <button id="throw-btn">쳐묵</button>
+            <button id="my-menu-btn">-</button>
+        </div>
+    </div>
+
+    <div id="modal">
+        <div class="modal-header">
+            <span>리스트</span>
+            <span style="cursor:pointer; padding:0 10px;" id="modal-close-btn">X</span>
+        </div>
+        <div class="modal-content" id="menu-list"></div>
+    </div>
+    <div id="toast"></div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, get, set, child, push, remove, onChildAdded, onChildRemoved } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC6n0Pw2GPg4MO6oUaWrBd7PT-GM-ufAw8",
+        authDomain: "monte-bianco-773a6.firebaseapp.com",
+        projectId: "monte-bianco-773a6",
+        storageBucket: "monte-bianco-773a6.firebasestorage.app",
+        messagingSenderId: "429437163337",
+        appId: "1:429437163337:web:f11e1a770ee03cb5336c98",
+        measurementId: "G-P4EP75DYB8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    let currentUser = null;
+    let menus = [];
+    let isPaused = false;
+    let activeSuggestionBallId = null;
+    let bubbleElements = [];
+    let toastTimer = null;
+
+    const pastelColors = ['#FFB7B2','#FFD8BE','#FFF1B6','#E2F0CB','#CDECCF','#B5EAD7','#C7F0FF','#C7CEEA','#D9C2F0','#F1C0E8','#FDE2E4','#D0F4DE'];
+    const NORMAL_SPEED = 0.55;
+    const LAUNCH_SPEED = 10.5;
+    const LAUNCH_DURATION = 2000;
+    const COLLISION_PUSH = 0.00035;
+    const OVERLAP_PADDING = 3;
+
+    const { Engine, Bodies, Composite, Body, Vector } = Matter;
+    let engine, arenaWidth, arenaHeight, boundaries = [];
+    const arenaEl = document.getElementById('arena');
+    const loginBtn = document.getElementById('login-btn');
+    const throwBtn = document.getElementById('throw-btn');
+    const myMenuBtn = document.getElementById('my-menu-btn');
+    const modalBtn = document.getElementById('modal-btn');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const menuInput = document.getElementById('menu-input');
+    const pwInput = document.getElementById('userpw');
+    const togglePwBtn = document.getElementById('toggle-pw-btn');
+
+    const copyAddrBtn = document.getElementById('copy-addr-btn');
+    if (copyAddrBtn) {
+        copyAddrBtn.addEventListener('click', () => {
+            const address = "경기 포천시 이동면 늠바위길 181";
+            navigator.clipboard.writeText(address).then(() => {
+                showToast("주소가 복사되었습니다.");
+            }).catch(err => {
+                showToast("복사 실패! 직접 선택해서 복사해주세요.");
+            });
+        });
+    }
+
+    function showToast(message, duration = 1600) {
+        const toast = document.getElementById('toast');
+        clearTimeout(toastTimer);
+        toast.textContent = message;
+        toast.classList.add('show');
+        toastTimer = setTimeout(() => { toast.classList.remove('show'); }, duration);
+    }
+
+    function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+    function randomDirection() { const angle = Math.random() * Math.PI * 2; return { x: Math.cos(angle), y: Math.sin(angle) }; }
+    function isFiniteVector(v) { return Number.isFinite(v.x) && Number.isFinite(v.y); }
+
+    function initPhysics() {
+        engine = Engine.create();
+        engine.world.gravity.y = 0;
+        engine.world.gravity.x = 0;
+        arenaWidth = arenaEl.clientWidth;
+        arenaHeight = arenaEl.clientHeight;
+        createBoundaries();
+
+        (function renderLoop() {
+            if (!engine) return;
+
+            if (!isPaused && !activeSuggestionBallId) {
+                Engine.update(engine, 1000 / 60);
+                resolveOverlaps();
+                regulateAllBodies();
+            }
+
+            menus.forEach(m => {
+                const el = document.getElementById(m.id);
+                if (el && m.body) {
+                    el.style.left = (m.body.position.x - m.radius) + 'px';
+                    el.style.top = (m.body.position.y - m.radius) + 'px';
+                }
+            });
+
+            requestAnimationFrame(renderLoop);
+        })();
+    }
+
+    function createBoundaries() {
+        if (engine && boundaries.length) Composite.remove(engine.world, boundaries);
+        const wallOptions = { isStatic: true, restitution: 1, friction: 0, frictionStatic: 0, slop: 0 };
+        boundaries = [
+            Bodies.rectangle(arenaWidth / 2, -25, arenaWidth, 50, wallOptions),
+            Bodies.rectangle(arenaWidth / 2, arenaHeight + 25, arenaWidth, 50, wallOptions),
+            Bodies.rectangle(-25, arenaHeight / 2, 50, arenaHeight, wallOptions),
+            Bodies.rectangle(arenaWidth + 25, arenaHeight / 2, 50, arenaHeight, wallOptions)
+        ];
+        Composite.add(engine.world, boundaries);
+    }
+
+    function regulateAllBodies() {
+        const now = Date.now();
+        menus.forEach(menu => {
+            const body = menu.body;
+            if (!body) return;
+            let velocity = body.velocity, speed = Vector.magnitude(velocity);
+            let dir = (speed < 0.001 || !isFiniteVector(velocity)) ? randomDirection() : Vector.normalise(velocity);
+            let desiredSpeed = NORMAL_SPEED;
+            if (menu.launchStart) {
+                const elapsed = now - menu.launchStart;
+                if (elapsed < LAUNCH_DURATION) desiredSpeed = LAUNCH_SPEED + (NORMAL_SPEED - LAUNCH_SPEED) * (elapsed / LAUNCH_DURATION);
+                else { desiredSpeed = NORMAL_SPEED; menu.launchStart = null; }
+            }
+            Body.setVelocity(body, { x: dir.x * (speed + (desiredSpeed - speed) * (menu.launchStart ? 0.12 : 0.25)), y: dir.y * (speed + (desiredSpeed - speed) * (menu.launchStart ? 0.12 : 0.25)) });
+        });
+    }
+
+    function resolveOverlaps() {
+        for (let i = 0; i < menus.length; i++) {
+            for (let j = i + 1; j < menus.length; j++) {
+                const a = menus[i], b = menus[j];
+                if (!a.body || !b.body) continue;
+                const dx = b.body.position.x - a.body.position.x, dy = b.body.position.y - a.body.position.y;
+                let dist = Math.sqrt(dx * dx + dy * dy);
+                const minDist = a.radius + b.radius + OVERLAP_PADDING;
+                if (dist < minDist) {
+                    const overlap = (minDist - (dist === 0 ? 0.01 : dist)) / 2, nx = dx / (dist === 0 ? 0.01 : dist), ny = dy / (dist === 0 ? 0.01 : dist);
+                    Body.setPosition(a.body, { x: clamp(a.body.position.x - nx * overlap, a.radius, arenaWidth - a.radius), y: clamp(a.body.position.y - ny * overlap, a.radius, arenaHeight - a.radius) });
+                    Body.setPosition(b.body, { x: clamp(b.body.position.x + nx * overlap, b.radius, arenaWidth - b.radius), y: clamp(b.body.position.y + ny * overlap, b.radius, arenaHeight - b.radius) });
+                    Body.applyForce(a.body, a.body.position, { x: -nx * COLLISION_PUSH, y: -ny * COLLISION_PUSH });
+                    Body.applyForce(b.body, b.body.position, { x: nx * COLLISION_PUSH, y: ny * COLLISION_PUSH });
+                }
+            }
+        }
+    }
+
+    function recalculateSizes() {
+        if (menus.length === 0) return;
+        const totalBaseArea = menus.reduce((acc, m) => acc + Math.PI * Math.pow(m.baseRadius, 2), 0);
+        const scaleFactor = Math.sqrt(Math.min(1, (arenaWidth * arenaHeight * 0.34) / totalBaseArea));
+        menus.forEach(m => {
+            const targetRadius = Math.max(22, m.baseRadius * scaleFactor);
+            const ratio = targetRadius / m.radius;
+            Body.scale(m.body, ratio, ratio);
+            m.radius = targetRadius;
+            const el = document.getElementById(m.id);
+            if (el) { el.style.width = el.style.height = (m.radius * 2) + 'px'; el.style.fontSize = Math.max(10, 14 * scaleFactor) + 'px'; }
+        });
+    }
+
+    function findSpawnPosition(radius) {
+        for (let i = 0; i < 40; i++) {
+            const x = clamp((arenaWidth/2) + (Math.random()-0.5)*(18+i*6), radius+6, arenaWidth-radius-6);
+            const y = clamp((arenaHeight-radius-14) - i*4, radius+6, arenaHeight-radius-6);
+            if (!menus.some(m => Math.hypot(m.body.position.x-x, m.body.position.y-y) < (m.radius+radius+8))) return {x, y};
+        }
+        return { x: clamp(arenaWidth/2, radius+6, arenaWidth-radius-6), y: arenaHeight-radius-14 };
+    }
+
+    function launchBall(m) {
+        const angle = (-90 + (Math.random()*24-12)) * Math.PI / 180;
+        Body.setVelocity(m.body, { x: Math.cos(angle)*LAUNCH_SPEED, y: Math.sin(angle)*LAUNCH_SPEED });
+        m.launchStart = Date.now();
+    }
+
+    window.addEventListener('resize', () => {
+        if (!engine) return;
+        arenaWidth = arenaEl.clientWidth; arenaHeight = arenaEl.clientHeight;
+        createBoundaries(); recalculateSizes(); updateListLayout();
+    });
+
+    pwInput.addEventListener('input', () => pwInput.value = pwInput.value.replace(/\D/g, '').slice(0, 3));
+    const eyeSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`;
+    const eyeOffSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>`;
+    togglePwBtn.addEventListener('click', () => { pwInput.type = pwInput.type === 'password' ? 'text' : 'password'; togglePwBtn.innerHTML = pwInput.type === 'password' ? eyeSvg : eyeOffSvg; });
+
+    loginBtn.addEventListener('click', handleLogin);
+    throwBtn.addEventListener('click', throwMenu);
+    myMenuBtn.addEventListener('click', toggleMyMenu);
+    modalBtn.addEventListener('click', toggleModal);
+    modalCloseBtn.addEventListener('click', toggleModal);
+
+    async function handleLogin() {
+        const idVal = document.getElementById('userid').value.trim(), pwVal = pwInput.value.trim();
+        if (!/^[가-힣]+$/.test(idVal)) { showToast("아이디는 한글만 가능합니다."); return; }
+        if (!/^\d{3}$/.test(pwVal)) { showToast("비밀번호는 숫자 3자리입니다."); return; }
+        try {
+            const snapshot = await get(child(ref(db), `users/${idVal}`));
+            let toastMessage = '';
+
+            if (snapshot.exists()) {
+                if (snapshot.val().password !== pwVal) { 
+                    showToast("비밀번호가 틀렸습니다."); 
+                    return; 
+                }
+                toastMessage = "다시 로그인 함.";
+            } else {
+                await set(ref(db, `users/${idVal}`), { password: pwVal });
+                toastMessage = "새로운 사람.";
+            }
+
+            currentUser = idVal;
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('main-page').style.display = 'flex';
+            if (!engine) { initPhysics(); initFirebaseListeners(); }
+            
+            showToast(toastMessage, 1800);
+        } catch (e) { 
+            showToast("DB 연결 오류가 발생했습니다."); 
+        }
+    }
+
+    function throwMenu() {
+        const text = menuInput.value.trim();
+        if (!text) return;
+        push(ref(db, 'menus'), { text: text, user: currentUser, timestamp: Date.now() });
+        menuInput.value = '';
+    }
+
+    function initFirebaseListeners() {
+        onChildAdded(ref(db, 'menus'), (data) => {
+            const val = data.val(), ballId = data.key;
+            const radius = 45 + (Math.random() * 8);
+            const ballEl = document.createElement('div');
+            ballEl.id = ballId;
+            ballEl.className = 'menu-ball';
+            ballEl.innerHTML = `<div class="ball-user">${val.user}</div><div class="ball-text">${val.text}</div>`;
+            ballEl.style.width = ballEl.style.height = (radius * 2) + 'px';
+            ballEl.style.backgroundColor = pastelColors[menus.length % pastelColors.length];
+            
+            ballEl.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                handleBallClick(ballId, val.text, val.user); 
+            });
+            
+            arenaEl.appendChild(ballEl);
+            const spawn = findSpawnPosition(radius);
+            const body = Bodies.circle(spawn.x, spawn.y, radius, { restitution: 1, friction: 0, frictionStatic: 0, frictionAir: 0, density: 0.02, slop: 0 });
+            Composite.add(engine.world, body);
+            menus.push({ id: ballId, user: val.user, text: val.text, body: body, radius: radius, baseRadius: radius, launchStart: null });
+            recalculateSizes(); resolveOverlaps(); launchBall(menus[menus.length-1]); updateUI();
+        });
+        
+        onChildRemoved(ref(db, 'menus'), (data) => {
+            const index = menus.findIndex(m => m.id === data.key);
+            if (index > -1) { Composite.remove(engine.world, menus[index].body); document.getElementById(data.key)?.remove(); menus.splice(index, 1); recalculateSizes(); updateUI(); }
+        });
+    }
+
+    function toggleMyMenu() {
+        isPaused = !isPaused;
+        
+        if(activeSuggestionBallId) saveAndCloseSuggestionMode(); 
+
+        myMenuBtn.classList.toggle('active');
+        menus.forEach(m => {
+            const el = document.getElementById(m.id);
+            if (!el) return;
+            if (isPaused) {
+                if (m.user === currentUser) el.classList.add('highlight'); else el.classList.add('dimmed');
+            } else {
+                el.classList.remove('highlight', 'dimmed');
+                el.innerHTML = `<div class="ball-user">${m.user}</div><div class="ball-text">${m.text}</div>`;
+            }
+        });
+    }
+
+    function handleBallClick(ballId, text, user) {
+        if (isPaused) {
+            if (user !== currentUser) return;
+            const ballEl = document.getElementById(ballId);
+            if (!ballEl || ballEl.querySelector('.delete-overlay')) return;
+            menus.forEach(m => {
+                const otherEl = document.getElementById(m.id);
+                if (otherEl && otherEl.querySelector('.delete-overlay')) otherEl.innerHTML = `<div class="ball-user">${m.user}</div><div class="ball-text">${m.text}</div>`;
+            });
+            ballEl.innerHTML = `<div class="delete-overlay">x</div>`;
+            ballEl.querySelector('.delete-overlay').onclick = (e) => { e.stopPropagation(); remove(ref(db, `menus/${ballId}`)); };
+        } else {
+            if (activeSuggestionBallId === ballId) return; 
+            if (activeSuggestionBallId) saveAndCloseSuggestionMode(); 
+            openSuggestionMode(ballId);
+        }
+    }
+
+    document.addEventListener('click', (e) => {
+        if (activeSuggestionBallId) {
+            const clickedBubble = e.target.closest('.suggestion-bubble');
+            if (clickedBubble) return; 
+            saveAndCloseSuggestionMode();
+            return; 
+        }
+
+        if (!isPaused) return;
+        const clickedBall = e.target.closest('.menu-ball');
+        const clickedDelete = e.target.closest('.delete-overlay');
+        if (clickedDelete) return;
+        menus.forEach(m => {
+            const el = document.getElementById(m.id);
+            if (el && el.querySelector('.delete-overlay')) {
+                if (!clickedBall || clickedBall.id !== m.id) {
+                    el.innerHTML = `<div class="ball-user">${m.user}</div><div class="ball-text">${m.text}</div>`;
+                }
+            }
+        });
+    });
+
+    async function openSuggestionMode(ballId) {
+        activeSuggestionBallId = ballId;
+        const snapshot = await get(ref(db, `menus/${ballId}/comments`));
+        const comments = snapshot.val() || {};
+        renderBubbles(ballId, comments);
+    }
+
+    function renderBubbles(ballId, commentsObj) {
+        const comments = Object.values(commentsObj);
+        const ball = menus.find(m => m.id === ballId);
+        if(!ball) return;
+
+        const bx = ball.body.position.x;
+        const by = ball.body.position.y;
+        const bRadius = ball.radius;
+
+        let layerBase = bRadius + 45; 
+        let layerStep = 55; 
+        let currentLayer = 0;
+        let bubblesInLayer = 0;
+        let maxInLayer = 6; 
+        let currentAngle = 0;
+
+        const createBubble = (text, isInput) => {
+            let dist = layerBase + (currentLayer * layerStep);
+            let x = bx + Math.cos(currentAngle) * dist;
+            let y = by + Math.sin(currentAngle) * dist;
+
+            x = clamp(x, 40, arenaWidth - 40);
+            y = clamp(y, 40, arenaHeight - 40);
+
+            const bubble = document.createElement('div');
+            bubble.className = 'suggestion-bubble';
+            bubble.style.left = x + 'px';
+            bubble.style.top = y + 'px';
+
+            const content = document.createElement('div');
+            content.className = 'bubble-content';
+
+            if (isInput) {
+                content.innerHTML = `✏️`;
+                content.onclick = (e) => {
+                    e.stopPropagation();
+                    if(content.querySelector('input')) return; 
+                    content.innerHTML = `<input type="text" class="bubble-input" placeholder="..." />`;
+                    const inp = content.querySelector('input');
+                    inp.focus();
+                    
+                    inp.addEventListener('input', () => {
+                        inp.style.width = Math.max(30, inp.value.length * 13 + 10) + 'px';
+                    });
+                };
+            } else {
+                content.innerText = text;
+            }
+
+            bubble.appendChild(content);
+            arenaEl.appendChild(bubble);
+            bubbleElements.push(bubble);
+
+            bubblesInLayer++;
+            currentAngle += (Math.PI * 2) / maxInLayer;
+            if (bubblesInLayer >= maxInLayer) { 
+                currentLayer++;
+                bubblesInLayer = 0;
+                maxInLayer = Math.floor(maxInLayer * 1.5); 
+                currentAngle = 0;
+            }
+        };
+
+        comments.forEach(c => createBubble(c, false));
+        createBubble("", true);
+    }
+
+    function saveAndCloseSuggestionMode() {
+        const inp = document.querySelector('.bubble-input');
+        if (inp && inp.value.trim().length > 0) {
+            push(ref(db, `menus/${activeSuggestionBallId}/comments`), inp.value.trim());
+        }
+
+        bubbleElements.forEach(el => el.remove());
+        bubbleElements = [];
+        activeSuggestionBallId = null; 
+    }
+
+    function updateListLayout() {
+        const listContainer = document.getElementById('menu-list');
+        if (!listContainer || menus.length === 0) return;
+        const rows = Math.max(1, Math.floor((listContainer.clientHeight || 300) / 52));
+        const cols = Math.max(1, Math.ceil(menus.length / rows));
+        listContainer.style.gridTemplateRows = `repeat(${rows}, minmax(44px, 1fr))`;
+        listContainer.style.gridTemplateColumns = `repeat(${cols}, minmax(120px, 1fr))`;
+    }
+
+    function updateUI() {
+        document.getElementById('menu-count').innerText = menus.length;
+        const listContainer = document.getElementById('menu-list');
+        listContainer.innerHTML = menus.length === 0 ? '<div class="empty-msg">아직 쳐묵할 메뉴가 없습니다.</div>' : '';
+        menus.forEach(m => {
+            const div = document.createElement('div');
+            div.className = 'list-item';
+            div.innerText = m.text;
+            listContainer.appendChild(div);
+        });
+        requestAnimationFrame(updateListLayout);
+    }
+
+    function toggleModal() {
+        const modal = document.getElementById('modal');
+        modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        if (modal.style.display === 'flex') requestAnimationFrame(updateListLayout);
+    }
+</script>
+</body>
+</html>
