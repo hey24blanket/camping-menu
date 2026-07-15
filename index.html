@@ -581,8 +581,13 @@
     const modalBtn = document.getElementById('modal-btn');
     const modalCloseBtn = document.getElementById('modal-close-btn');
     const menuInput = document.getElementById('menu-input');
+    const idInput = document.getElementById('userid');
     const pwInput = document.getElementById('userpw');
     const togglePwBtn = document.getElementById('toggle-pw-btn');
+
+    // 이 앱 전용 로그인 저장 키입니다.
+    const SAVED_LOGIN_ID_KEY = 'campingMenu.savedUserId';
+    const SAVED_LOGIN_PW_KEY = 'campingMenu.savedUserPw';
 
     const copyAddrBtn = document.getElementById('copy-addr-btn');
     if (copyAddrBtn) {
@@ -602,6 +607,36 @@
         toast.textContent = message;
         toast.classList.add('show');
         toastTimer = setTimeout(() => { toast.classList.remove('show'); }, duration);
+    }
+
+    // 이전에 이 브라우저에서 로그인한 정보가 있으면 자동으로 입력합니다.
+    // 자동 로그인은 하지 않고, 사용자가 '들어가기' 버튼을 눌러야 합니다.
+    function restoreSavedLogin() {
+        try {
+            const savedId = localStorage.getItem(SAVED_LOGIN_ID_KEY);
+            const savedPw = localStorage.getItem(SAVED_LOGIN_PW_KEY);
+
+            if (!savedId || !savedPw) return;
+
+            idInput.value = savedId;
+            pwInput.value = savedPw;
+
+            // 키보드가 자동으로 열리지 않도록 입력창 대신 버튼에 초점을 둡니다.
+            requestAnimationFrame(() => loginBtn.focus({ preventScroll: true }));
+        } catch (error) {
+            // 사생활 보호 모드 등에서 localStorage 사용이 막혀도 앱은 정상 동작합니다.
+            console.warn('저장된 로그인 정보를 불러오지 못했습니다.', error);
+        }
+    }
+
+    // 로그인 검증에 성공한 경우에만 현재 브라우저에 정보를 저장합니다.
+    function saveLogin(id, password) {
+        try {
+            localStorage.setItem(SAVED_LOGIN_ID_KEY, id);
+            localStorage.setItem(SAVED_LOGIN_PW_KEY, password);
+        } catch (error) {
+            console.warn('로그인 정보를 이 브라우저에 저장하지 못했습니다.', error);
+        }
     }
 
     function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
@@ -753,6 +788,9 @@
     modalBtn.addEventListener('click', toggleModal);
     modalCloseBtn.addEventListener('click', toggleModal);
 
+    // 페이지가 열리면 저장된 아이디와 비밀번호를 입력란에 복원합니다.
+    restoreSavedLogin();
+
     function escapeHTML(value) {
         return String(value ?? '')
             .replaceAll('&', '&amp;')
@@ -858,7 +896,7 @@
     }
 
     async function handleLogin() {
-        const idVal = document.getElementById('userid').value.trim(), pwVal = pwInput.value.trim();
+        const idVal = idInput.value.trim(), pwVal = pwInput.value.trim();
         if (!/^[가-힣]+$/.test(idVal)) { showToast("아이디는 한글만 가능합니다."); return; }
         if (!/^\d{3}$/.test(pwVal)) { showToast("비밀번호는 숫자 3자리입니다."); return; }
         try {
@@ -875,6 +913,9 @@
                 await set(ref(db, `users/${idVal}`), { password: pwVal });
                 toastMessage = "새로운 사람.";
             }
+
+            // 가입 또는 기존 사용자 확인이 끝난 뒤에만 이 기기에 저장합니다.
+            saveLogin(idVal, pwVal);
 
             currentUser = idVal;
             document.getElementById('login-page').style.display = 'none';
