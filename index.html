@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>몬테비얀코 쳐묵 기행</title>
 
+    <!-- Matter.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 
     <style>
@@ -17,11 +18,7 @@
             --danger: #FF6B6B;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: #e0e0e0;
@@ -54,8 +51,7 @@
             }
         }
 
-        input,
-        button {
+        input, button {
             font-family: var(--font-main);
             border: 2px solid var(--line-color);
             background: var(--bg-color);
@@ -101,7 +97,7 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border: none;
+            border: none; 
             border-radius: 12px;
             background: transparent;
             display: block;
@@ -137,7 +133,7 @@
             padding: 0 52px;
             text-align: center;
         }
-
+        
         #camp-address {
             line-height: 1.35;
             white-space: nowrap;
@@ -219,6 +215,7 @@
             flex-direction: column;
         }
 
+        /* 상단 */
         #top-bar {
             height: 10%;
             min-height: 50px;
@@ -232,17 +229,12 @@
             background: var(--bg-color);
         }
 
+        /* 아레나 */
         #arena {
             height: 75%;
             position: relative;
             overflow: hidden;
-            background:
-                radial-gradient(
-                    circle at 50% 45%,
-                    rgba(255,255,255,0.55) 0%,
-                    rgba(255,255,255,0.18) 45%,
-                    rgba(0,0,0,0) 100%
-                );
+            background: radial-gradient(circle at 50% 45%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 45%, rgba(0,0,0,0) 100%);
         }
 
         .menu-ball {
@@ -255,7 +247,7 @@
             justify-content: center;
             font-weight: bold;
             text-align: center;
-            box-shadow: 2px 2px 0 rgba(0,0,0,0.12);
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.12);
             user-select: none;
             transition: opacity 0.25s, transform 0.2s;
             transform-origin: center;
@@ -268,6 +260,7 @@
             cursor: pointer;
         }
 
+        /* 메뉴 공 안의 댓글 카운트 */
         .ball-comment-count {
             display: flex;
             align-items: center;
@@ -307,10 +300,12 @@
             opacity: 0.16;
         }
 
+        /* 삭제 모드에서 다른 사람의 공만 클릭되지 않게 합니다. */
         .menu-ball.interaction-disabled {
             pointer-events: none;
         }
 
+        /* 댓글창을 연 공 / 삭제 모드의 내 공 강조 */
         .menu-ball.highlight {
             box-shadow: 0 0 18px rgba(0,0,0,0.28);
             border-width: 3px;
@@ -333,7 +328,7 @@
             cursor: pointer;
         }
 
-        /* 댓글창 */
+        /* 💬 스마트 채팅창 스타일 (댓글 모드) */
         .chat-window {
             position: absolute;
             z-index: 100;
@@ -348,21 +343,11 @@
             min-height: 0;
         }
 
-        .chat-window.attach-top-left {
-            border-top-left-radius: 2px;
-        }
-
-        .chat-window.attach-top-right {
-            border-top-right-radius: 2px;
-        }
-
-        .chat-window.attach-bottom-left {
-            border-bottom-left-radius: 2px;
-        }
-
-        .chat-window.attach-bottom-right {
-            border-bottom-right-radius: 2px;
-        }
+        /* 선택한 공과 맞닿는 모서리는 덜 둥글게 하여 연결이 분명하게 보이게 합니다. */
+        .chat-window.attach-top-left { border-top-left-radius: 2px; }
+        .chat-window.attach-top-right { border-top-right-radius: 2px; }
+        .chat-window.attach-bottom-left { border-bottom-left-radius: 2px; }
+        .chat-window.attach-bottom-right { border-bottom-right-radius: 2px; }
 
         .chat-list {
             flex: 1;
@@ -398,30 +383,50 @@
 
         .chat-input-row {
             display: flex;
+            flex: 0 0 40px;
+            width: 100%;
+            min-width: 0;
             border-top: 2px solid var(--line-color);
             background: #fff;
             height: 40px;
+            overflow: hidden;
         }
 
         .chat-input {
-            flex: 1;
+            flex: 1 1 auto;
+            min-width: 0;
+            width: 0;
             border: none;
             padding: 0 10px;
             outline: none;
             font-size: 13px;
-            border-radius: 0;
+            border-radius: 0; /* 테두리 중복 방지 */
         }
 
         .chat-send-btn {
+            flex: 0 0 58px;
+            width: 58px;
+            min-width: 58px;
+            max-width: 58px;
+            height: 100%;
             border: none;
             background: var(--accent-green);
             font-weight: bold;
-            padding: 0 12px;
+            font-size: 13px;
+            line-height: 1;
+            padding: 0;
             border-left: 2px solid var(--line-color);
             border-radius: 0;
             cursor: pointer;
+            white-space: nowrap;
+            word-break: keep-all;
+            writing-mode: horizontal-tb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        /* 하단 바 */
         #bottom-bar {
             height: 15%;
             min-height: 70px;
@@ -465,106 +470,24 @@
             color: var(--bg-color);
         }
 
-        #modal {
-            display: none;
-            position: absolute;
-            top: 12%;
-            left: 4%;
-            width: 92%;
-            height: 74%;
-            background: var(--bg-color);
-            border: 2px solid var(--line-color);
-            border-radius: 12px;
-            z-index: 200;
-            box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .modal-header {
-            padding: 15px;
-            border-bottom: 2px solid var(--line-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            background: #fff;
-            flex: 0 0 auto;
-        }
-
-        .modal-content {
-            padding: 12px;
-            background: var(--bg-color);
-            flex: 1;
-            overflow: hidden;
-            display: grid;
-            gap: 8px;
-            align-content: start;
-        }
-
-        .list-item {
-            min-height: 44px;
-            padding: 10px 8px;
-            border: 1px solid #d8d8d8;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 14px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fff;
-        }
-
-        .empty-msg {
-            text-align: center;
-            padding: 30px;
-            color: #888;
-            font-size: 14px;
-            grid-column: 1 / -1;
-            align-self: center;
-            justify-self: center;
-        }
-
-        #toast {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) translateY(12px);
-            opacity: 0;
-            pointer-events: none;
-            z-index: 400;
-            min-width: 180px;
-            max-width: 80%;
-            padding: 14px 18px;
-            border: 2px solid var(--line-color);
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 4px 4px 0 rgba(0,0,0,0.18);
-            text-align: center;
-            font-weight: 700;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-
-        #toast.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) translateY(0);
-        }
+        /* 모달 및 토스트 */
+        #modal { display: none; position: absolute; top: 12%; left: 4%; width: 92%; height: 74%; background: var(--bg-color); border: 2px solid var(--line-color); border-radius: 12px; z-index: 200; box-shadow: 4px 4px 0 rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; }
+        .modal-header { padding: 15px; border-bottom: 2px solid var(--line-color); display: flex; justify-content: space-between; align-items: center; font-weight: bold; background: #fff; flex: 0 0 auto; }
+        .modal-content { padding: 12px; background: var(--bg-color); flex: 1; overflow: hidden; display: grid; gap: 8px; align-content: start; }
+        .list-item { min-height: 44px; padding: 10px 8px; border: 1px solid #d8d8d8; border-radius: 10px; text-align: center; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; background: #fff; }
+        .empty-msg { text-align: center; padding: 30px; color: #888; font-size: 14px; grid-column: 1 / -1; align-self: center; justify-self: center; }
+        #toast { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) translateY(12px); opacity: 0; pointer-events: none; z-index: 400; min-width: 180px; max-width: 80%; padding: 14px 18px; border: 2px solid var(--line-color); background: #fff; border-radius: 14px; box-shadow: 4px 4px 0 rgba(0,0,0,0.18); text-align: center; font-weight: 700; transition: opacity 0.4s ease, transform 0.4s ease; }
+        #toast.show { opacity: 1; transform: translate(-50%, -50%) translateY(0); }
     </style>
 </head>
-
 <body>
-<div id="app-container">
 
+<div id="app-container">
     <div id="login-page">
         <div class="login-box">
-
-            <img
-                class="hero-image"
-                src="https://raw.githubusercontent.com/hey24blanket/camping-menu/refs/heads/main/hero_00000.png"
-                alt="캠핑 이미지"
-            />
-
+            <!-- 직접 호스팅하신 이미지를 여기에 넣으세요 -->
+            <img class="hero-image" src="https://raw.githubusercontent.com/hey24blanket/camping-menu/refs/heads/main/hero_00000.png" alt="캠핑 이미지" />
+            
             <h2 class="login-title">몬테비얀코 쳐묵 기행</h2>
 
             <div class="camp-info">
@@ -579,68 +502,29 @@
                     <span>퇴실 12시</span>
                 </div>
             </div>
-
-            <input
-                type="text"
-                id="userid"
-                placeholder="아이디 (띄어쓰기 없는 한글)"
-            />
-
+            
+            <input type="text" id="userid" placeholder="아이디 (띄어쓰기 없는 한글)" />
             <p class="hint">DB 확인 후 없으면 자동 가입됩니다.</p>
-
             <div class="input-icon-wrapper">
-                <input
-                    type="password"
-                    id="userpw"
-                    placeholder="비밀번호 (숫자 3자리)"
-                    inputmode="numeric"
-                    maxlength="3"
-                />
-
-                <button
-                    type="button"
-                    id="toggle-pw-btn"
-                    aria-label="비밀번호 보기"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#999"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
-                        <circle cx="12" cy="12" r="3"/>
+                <input type="password" id="userpw" placeholder="비밀번호 (숫자 3자리)" inputmode="numeric" maxlength="3" />
+                <button type="button" id="toggle-pw-btn" aria-label="비밀번호 보기">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
                     </svg>
                 </button>
             </div>
-
             <button id="login-btn">들어가기</button>
         </div>
     </div>
 
     <div id="main-page">
         <div id="top-bar">
-            <div>
-                메뉴: <span id="menu-count">0</span>
-            </div>
-
+            <div>메뉴: <span id="menu-count">0</span></div>
             <button id="modal-btn">리스트</button>
         </div>
-
         <div id="arena"></div>
-
         <div id="bottom-bar">
-            <input
-                type="text"
-                id="menu-input"
-                placeholder="뭘 드실까요?"
-            />
-
+            <input type="text" id="menu-input" placeholder="뭘 드실까요?" />
             <button id="throw-btn">쳐묵</button>
             <button id="my-menu-btn">-</button>
         </div>
@@ -649,37 +533,17 @@
     <div id="modal">
         <div class="modal-header">
             <span>리스트</span>
-            <span
-                id="modal-close-btn"
-                style="cursor:pointer; padding:0 10px;"
-            >
-                X
-            </span>
+            <span style="cursor:pointer; padding:0 10px;" id="modal-close-btn">X</span>
         </div>
-
         <div class="modal-content" id="menu-list"></div>
     </div>
-
     <div id="toast"></div>
 </div>
 
 <script type="module">
-    import {
-        initializeApp
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-    import {
-        getDatabase,
-        ref,
-        get,
-        set,
-        child,
-        push,
-        remove,
-        onChildAdded,
-        onChildRemoved,
-        onValue
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    // onValue를 추가로 import 합니다.
+    import { getDatabase, ref, get, set, child, push, remove, onChildAdded, onChildRemoved, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyC6n0Pw2GPg4MO6oUaWrBd7PT-GM-ufAw8",
@@ -701,40 +565,15 @@
     let activeChatWindow = null;
     let toastTimer = null;
 
-    const pastelColors = [
-        '#FFB7B2',
-        '#FFD8BE',
-        '#FFF1B6',
-        '#E2F0CB',
-        '#CDECCF',
-        '#B5EAD7',
-        '#C7F0FF',
-        '#C7CEEA',
-        '#D9C2F0',
-        '#F1C0E8',
-        '#FDE2E4',
-        '#D0F4DE'
-    ];
-
+    const pastelColors = ['#FFB7B2','#FFD8BE','#FFF1B6','#E2F0CB','#CDECCF','#B5EAD7','#C7F0FF','#C7CEEA','#D9C2F0','#F1C0E8','#FDE2E4','#D0F4DE'];
     const NORMAL_SPEED = 0.55;
     const LAUNCH_SPEED = 10.5;
     const LAUNCH_DURATION = 2000;
     const COLLISION_PUSH = 0.00035;
     const OVERLAP_PADDING = 3;
 
-    const {
-        Engine,
-        Bodies,
-        Composite,
-        Body,
-        Vector
-    } = Matter;
-
-    let engine;
-    let arenaWidth;
-    let arenaHeight;
-    let boundaries = [];
-
+    const { Engine, Bodies, Composite, Body, Vector } = Matter;
+    let engine, arenaWidth, arenaHeight, boundaries = [];
     const arenaEl = document.getElementById('arena');
     const loginBtn = document.getElementById('login-btn');
     const throwBtn = document.getElementById('throw-btn');
@@ -744,67 +583,41 @@
     const menuInput = document.getElementById('menu-input');
     const pwInput = document.getElementById('userpw');
     const togglePwBtn = document.getElementById('toggle-pw-btn');
-    const copyAddrBtn = document.getElementById('copy-addr-btn');
 
+    const copyAddrBtn = document.getElementById('copy-addr-btn');
     if (copyAddrBtn) {
         copyAddrBtn.addEventListener('click', () => {
             const address = "경기 포천시 이동면 늠바위길 181";
-
-            navigator.clipboard.writeText(address)
-                .then(() => {
-                    showToast("주소가 복사되었습니다.");
-                })
-                .catch(() => {
-                    showToast("복사 실패! 직접 선택해서 복사해주세요.");
-                });
+            navigator.clipboard.writeText(address).then(() => {
+                showToast("주소가 복사되었습니다.");
+            }).catch(err => {
+                showToast("복사 실패! 직접 선택해서 복사해주세요.");
+            });
         });
     }
 
     function showToast(message, duration = 1600) {
         const toast = document.getElementById('toast');
-
         clearTimeout(toastTimer);
-
         toast.textContent = message;
         toast.classList.add('show');
-
-        toastTimer = setTimeout(() => {
-            toast.classList.remove('show');
-        }, duration);
+        toastTimer = setTimeout(() => { toast.classList.remove('show'); }, duration);
     }
 
-    function clamp(value, min, max) {
-        return Math.max(min, Math.min(max, value));
-    }
-
-    function randomDirection() {
-        const angle = Math.random() * Math.PI * 2;
-
-        return {
-            x: Math.cos(angle),
-            y: Math.sin(angle)
-        };
-    }
-
-    function isFiniteVector(vector) {
-        return Number.isFinite(vector.x) && Number.isFinite(vector.y);
-    }
+    function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+    function randomDirection() { const angle = Math.random() * Math.PI * 2; return { x: Math.cos(angle), y: Math.sin(angle) }; }
+    function isFiniteVector(v) { return Number.isFinite(v.x) && Number.isFinite(v.y); }
 
     function initPhysics() {
         engine = Engine.create();
-
         engine.world.gravity.y = 0;
         engine.world.gravity.x = 0;
-
         arenaWidth = arenaEl.clientWidth;
         arenaHeight = arenaEl.clientHeight;
-
         createBoundaries();
 
-        function renderLoop() {
-            if (!engine) {
-                return;
-            }
+        (function renderLoop() {
+            if (!engine) return;
 
             if (!isPaused && !activeSuggestionBallId) {
                 Engine.update(engine, 1000 / 60);
@@ -812,405 +625,127 @@
                 regulateAllBodies();
             }
 
-            menus.forEach((menu) => {
-                const element = document.getElementById(menu.id);
-
-                if (element && menu.body) {
-                    element.style.left =
-                        `${menu.body.position.x - menu.radius}px`;
-
-                    element.style.top =
-                        `${menu.body.position.y - menu.radius}px`;
+            menus.forEach(m => {
+                const el = document.getElementById(m.id);
+                if (el && m.body) {
+                    el.style.left = (m.body.position.x - m.radius) + 'px';
+                    el.style.top = (m.body.position.y - m.radius) + 'px';
                 }
             });
 
             requestAnimationFrame(renderLoop);
-        }
-
-        renderLoop();
+        })();
     }
 
     function createBoundaries() {
-        if (engine && boundaries.length) {
-            Composite.remove(engine.world, boundaries);
-        }
-
-        const wallOptions = {
-            isStatic: true,
-            restitution: 1,
-            friction: 0,
-            frictionStatic: 0,
-            slop: 0
-        };
-
+        if (engine && boundaries.length) Composite.remove(engine.world, boundaries);
+        const wallOptions = { isStatic: true, restitution: 1, friction: 0, frictionStatic: 0, slop: 0 };
         boundaries = [
-            Bodies.rectangle(
-                arenaWidth / 2,
-                -25,
-                arenaWidth,
-                50,
-                wallOptions
-            ),
-
-            Bodies.rectangle(
-                arenaWidth / 2,
-                arenaHeight + 25,
-                arenaWidth,
-                50,
-                wallOptions
-            ),
-
-            Bodies.rectangle(
-                -25,
-                arenaHeight / 2,
-                50,
-                arenaHeight,
-                wallOptions
-            ),
-
-            Bodies.rectangle(
-                arenaWidth + 25,
-                arenaHeight / 2,
-                50,
-                arenaHeight,
-                wallOptions
-            )
+            Bodies.rectangle(arenaWidth / 2, -25, arenaWidth, 50, wallOptions),
+            Bodies.rectangle(arenaWidth / 2, arenaHeight + 25, arenaWidth, 50, wallOptions),
+            Bodies.rectangle(-25, arenaHeight / 2, 50, arenaHeight, wallOptions),
+            Bodies.rectangle(arenaWidth + 25, arenaHeight / 2, 50, arenaHeight, wallOptions)
         ];
-
         Composite.add(engine.world, boundaries);
     }
 
     function regulateAllBodies() {
         const now = Date.now();
-
-        menus.forEach((menu) => {
+        menus.forEach(menu => {
             const body = menu.body;
-
-            if (!body) {
-                return;
-            }
-
-            const velocity = body.velocity;
-            const speed = Vector.magnitude(velocity);
-
-            const direction =
-                speed < 0.001 || !isFiniteVector(velocity)
-                    ? randomDirection()
-                    : Vector.normalise(velocity);
-
+            if (!body) return;
+            let velocity = body.velocity, speed = Vector.magnitude(velocity);
+            let dir = (speed < 0.001 || !isFiniteVector(velocity)) ? randomDirection() : Vector.normalise(velocity);
             let desiredSpeed = NORMAL_SPEED;
-
             if (menu.launchStart) {
                 const elapsed = now - menu.launchStart;
-
-                if (elapsed < LAUNCH_DURATION) {
-                    desiredSpeed =
-                        LAUNCH_SPEED +
-                        (NORMAL_SPEED - LAUNCH_SPEED) *
-                        (elapsed / LAUNCH_DURATION);
-                } else {
-                    desiredSpeed = NORMAL_SPEED;
-                    menu.launchStart = null;
-                }
+                if (elapsed < LAUNCH_DURATION) desiredSpeed = LAUNCH_SPEED + (NORMAL_SPEED - LAUNCH_SPEED) * (elapsed / LAUNCH_DURATION);
+                else { desiredSpeed = NORMAL_SPEED; menu.launchStart = null; }
             }
-
-            const adjustment = menu.launchStart ? 0.12 : 0.25;
-            const adjustedSpeed =
-                speed + (desiredSpeed - speed) * adjustment;
-
-            Body.setVelocity(body, {
-                x: direction.x * adjustedSpeed,
-                y: direction.y * adjustedSpeed
-            });
+            Body.setVelocity(body, { x: dir.x * (speed + (desiredSpeed - speed) * (menu.launchStart ? 0.12 : 0.25)), y: dir.y * (speed + (desiredSpeed - speed) * (menu.launchStart ? 0.12 : 0.25)) });
         });
     }
 
     function resolveOverlaps() {
         for (let i = 0; i < menus.length; i++) {
             for (let j = i + 1; j < menus.length; j++) {
-                const first = menus[i];
-                const second = menus[j];
-
-                if (!first.body || !second.body) {
-                    continue;
-                }
-
-                const dx =
-                    second.body.position.x -
-                    first.body.position.x;
-
-                const dy =
-                    second.body.position.y -
-                    first.body.position.y;
-
-                let distance = Math.sqrt(dx * dx + dy * dy);
-
-                const minimumDistance =
-                    first.radius +
-                    second.radius +
-                    OVERLAP_PADDING;
-
-                if (distance < minimumDistance) {
-                    const safeDistance =
-                        distance === 0 ? 0.01 : distance;
-
-                    const overlap =
-                        (minimumDistance - safeDistance) / 2;
-
-                    const normalX = dx / safeDistance;
-                    const normalY = dy / safeDistance;
-
-                    Body.setPosition(first.body, {
-                        x: clamp(
-                            first.body.position.x - normalX * overlap,
-                            first.radius,
-                            arenaWidth - first.radius
-                        ),
-
-                        y: clamp(
-                            first.body.position.y - normalY * overlap,
-                            first.radius,
-                            arenaHeight - first.radius
-                        )
-                    });
-
-                    Body.setPosition(second.body, {
-                        x: clamp(
-                            second.body.position.x + normalX * overlap,
-                            second.radius,
-                            arenaWidth - second.radius
-                        ),
-
-                        y: clamp(
-                            second.body.position.y + normalY * overlap,
-                            second.radius,
-                            arenaHeight - second.radius
-                        )
-                    });
-
-                    Body.applyForce(
-                        first.body,
-                        first.body.position,
-                        {
-                            x: -normalX * COLLISION_PUSH,
-                            y: -normalY * COLLISION_PUSH
-                        }
-                    );
-
-                    Body.applyForce(
-                        second.body,
-                        second.body.position,
-                        {
-                            x: normalX * COLLISION_PUSH,
-                            y: normalY * COLLISION_PUSH
-                        }
-                    );
+                const a = menus[i], b = menus[j];
+                if (!a.body || !b.body) continue;
+                const dx = b.body.position.x - a.body.position.x, dy = b.body.position.y - a.body.position.y;
+                let dist = Math.sqrt(dx * dx + dy * dy);
+                const minDist = a.radius + b.radius + OVERLAP_PADDING;
+                if (dist < minDist) {
+                    const overlap = (minDist - (dist === 0 ? 0.01 : dist)) / 2, nx = dx / (dist === 0 ? 0.01 : dist), ny = dy / (dist === 0 ? 0.01 : dist);
+                    Body.setPosition(a.body, { x: clamp(a.body.position.x - nx * overlap, a.radius, arenaWidth - a.radius), y: clamp(a.body.position.y - ny * overlap, a.radius, arenaHeight - a.radius) });
+                    Body.setPosition(b.body, { x: clamp(b.body.position.x + nx * overlap, b.radius, arenaWidth - b.radius), y: clamp(b.body.position.y + ny * overlap, b.radius, arenaHeight - b.radius) });
+                    Body.applyForce(a.body, a.body.position, { x: -nx * COLLISION_PUSH, y: -ny * COLLISION_PUSH });
+                    Body.applyForce(b.body, b.body.position, { x: nx * COLLISION_PUSH, y: ny * COLLISION_PUSH });
                 }
             }
         }
     }
 
     function recalculateSizes() {
-        if (menus.length === 0) {
-            return;
-        }
-
-        const totalBaseArea = menus.reduce((total, menu) => {
-            return total + Math.PI * Math.pow(menu.baseRadius, 2);
-        }, 0);
-
-        const availableArea =
-            arenaWidth *
-            arenaHeight *
-            0.34;
-
-        const scaleFactor = Math.sqrt(
-            Math.min(1, availableArea / totalBaseArea)
-        );
-
-        menus.forEach((menu) => {
-            const targetRadius = Math.max(
-                22,
-                menu.baseRadius * scaleFactor
-            );
-
-            const ratio = targetRadius / menu.radius;
-
-            Body.scale(menu.body, ratio, ratio);
-
-            menu.radius = targetRadius;
-
-            const element = document.getElementById(menu.id);
-
-            if (element) {
-                element.style.width = `${menu.radius * 2}px`;
-                element.style.height = `${menu.radius * 2}px`;
-                element.style.fontSize =
-                    `${Math.max(10, 14 * scaleFactor)}px`;
-            }
+        if (menus.length === 0) return;
+        const totalBaseArea = menus.reduce((acc, m) => acc + Math.PI * Math.pow(m.baseRadius, 2), 0);
+        const scaleFactor = Math.sqrt(Math.min(1, (arenaWidth * arenaHeight * 0.34) / totalBaseArea));
+        menus.forEach(m => {
+            const targetRadius = Math.max(22, m.baseRadius * scaleFactor);
+            const ratio = targetRadius / m.radius;
+            Body.scale(m.body, ratio, ratio);
+            m.radius = targetRadius;
+            const el = document.getElementById(m.id);
+            if (el) { el.style.width = el.style.height = (m.radius * 2) + 'px'; el.style.fontSize = Math.max(10, 14 * scaleFactor) + 'px'; }
         });
     }
 
     function findSpawnPosition(radius) {
         for (let i = 0; i < 40; i++) {
-            const x = clamp(
-                arenaWidth / 2 +
-                (Math.random() - 0.5) *
-                (18 + i * 6),
-
-                radius + 6,
-                arenaWidth - radius - 6
-            );
-
-            const y = clamp(
-                arenaHeight - radius - 14 - i * 4,
-                radius + 6,
-                arenaHeight - radius - 6
-            );
-
-            const overlaps = menus.some((menu) => {
-                return Math.hypot(
-                    menu.body.position.x - x,
-                    menu.body.position.y - y
-                ) < menu.radius + radius + 8;
-            });
-
-            if (!overlaps) {
-                return { x, y };
-            }
+            const x = clamp((arenaWidth/2) + (Math.random()-0.5)*(18+i*6), radius+6, arenaWidth-radius-6);
+            const y = clamp((arenaHeight-radius-14) - i*4, radius+6, arenaHeight-radius-6);
+            if (!menus.some(m => Math.hypot(m.body.position.x-x, m.body.position.y-y) < (m.radius+radius+8))) return {x, y};
         }
-
-        return {
-            x: clamp(
-                arenaWidth / 2,
-                radius + 6,
-                arenaWidth - radius - 6
-            ),
-
-            y: arenaHeight - radius - 14
-        };
+        return { x: clamp(arenaWidth/2, radius+6, arenaWidth-radius-6), y: arenaHeight-radius-14 };
     }
 
-    function launchBall(menu) {
-        const angle =
-            (-90 + (Math.random() * 24 - 12)) *
-            Math.PI /
-            180;
-
-        Body.setVelocity(menu.body, {
-            x: Math.cos(angle) * LAUNCH_SPEED,
-            y: Math.sin(angle) * LAUNCH_SPEED
-        });
-
-        menu.launchStart = Date.now();
+    function launchBall(m) {
+        const angle = (-90 + (Math.random()*24-12)) * Math.PI / 180;
+        Body.setVelocity(m.body, { x: Math.cos(angle)*LAUNCH_SPEED, y: Math.sin(angle)*LAUNCH_SPEED });
+        m.launchStart = Date.now();
     }
 
     window.addEventListener('resize', () => {
-        if (!engine) {
-            return;
-        }
-
+        if (!engine) return;
         arenaWidth = arenaEl.clientWidth;
         arenaHeight = arenaEl.clientHeight;
-
         createBoundaries();
         recalculateSizes();
 
-        menus.forEach((menu) => {
-            if (!menu.body) {
-                return;
-            }
-
-            Body.setPosition(menu.body, {
-                x: clamp(
-                    menu.body.position.x,
-                    menu.radius,
-                    arenaWidth - menu.radius
-                ),
-
-                y: clamp(
-                    menu.body.position.y,
-                    menu.radius,
-                    arenaHeight - menu.radius
-                )
+        // 화면 크기가 바뀌었을 때 공도 아레나 안으로 다시 넣습니다.
+        menus.forEach(m => {
+            if (!m.body) return;
+            Body.setPosition(m.body, {
+                x: clamp(m.body.position.x, m.radius, arenaWidth - m.radius),
+                y: clamp(m.body.position.y, m.radius, arenaHeight - m.radius)
             });
         });
 
         if (activeSuggestionBallId && activeChatWindow) {
-            requestAnimationFrame(() => {
-                positionChatWindow(
-                    activeSuggestionBallId,
-                    activeChatWindow
-                );
-            });
+            requestAnimationFrame(() => positionChatWindow(activeSuggestionBallId, activeChatWindow));
         }
-
         updateListLayout();
     });
 
-    pwInput.addEventListener('input', () => {
-        pwInput.value = pwInput.value
-            .replace(/\D/g, '')
-            .slice(0, 3);
-    });
-
+    pwInput.addEventListener('input', () => pwInput.value = pwInput.value.replace(/\D/g, '').slice(0, 3));
     pwInput.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' && !event.isComposing) {
+        if (event.key === 'Enter') {
             event.preventDefault();
             handleLogin();
         }
     });
-
-    const eyeSvg = `
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#999"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        >
-            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
-            <circle cx="12" cy="12" r="3"/>
-        </svg>
-    `;
-
-    const eyeOffSvg = `
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#999"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        >
-            <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
-            <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
-            <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
-            <line x1="2" y1="2" x2="22" y2="22"/>
-        </svg>
-    `;
-
-    togglePwBtn.addEventListener('click', () => {
-        const passwordIsHidden =
-            pwInput.type === 'password';
-
-        pwInput.type =
-            passwordIsHidden
-                ? 'text'
-                : 'password';
-
-        togglePwBtn.innerHTML =
-            pwInput.type === 'password'
-                ? eyeSvg
-                : eyeOffSvg;
-    });
+    const eyeSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`;
+    const eyeOffSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>`;
+    togglePwBtn.addEventListener('click', () => { pwInput.type = pwInput.type === 'password' ? 'text' : 'password'; togglePwBtn.innerHTML = pwInput.type === 'password' ? eyeSvg : eyeOffSvg; });
 
     loginBtn.addEventListener('click', handleLogin);
     throwBtn.addEventListener('click', throwMenu);
@@ -1227,1052 +762,455 @@
             .replaceAll("'", '&#039;');
     }
 
-    function getBallInnerHTML(menu) {
-        const commentBadge =
-            menu.commentCount > 0
-                ? `
-                    <div
-                        class="ball-comment-count"
-                        aria-label="댓글 ${menu.commentCount}개"
-                    >
-                        <svg
-                            class="ball-comment-icon"
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2.4"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
-                        </svg>
-
-                        <span>${menu.commentCount}</span>
-                    </div>
-                `
-                : '';
+    // 내부 컨텐츠 렌더링을 일관되게 처리하는 헬퍼 함수
+    function getBallInnerHTML(m) {
+        const commentBadge = m.commentCount > 0 ? `
+            <div class="ball-comment-count" aria-label="댓글 ${m.commentCount}개">
+                <svg class="ball-comment-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
+                </svg>
+                <span>${m.commentCount}</span>
+            </div>
+        ` : '';
 
         return `
             ${commentBadge}
-            <div class="ball-user">
-                ${escapeHTML(menu.user)}
-            </div>
-            <div class="ball-text">
-                ${escapeHTML(menu.text)}
-            </div>
+            <div class="ball-user">${escapeHTML(m.user)}</div>
+            <div class="ball-text">${escapeHTML(m.text)}</div>
         `;
     }
 
+    // 예전 DB의 문자열 댓글과, 혹시 이후 객체 형태로 저장된 댓글을 모두 읽습니다.
     function normalizeComments(rawComments) {
-        if (
-            !rawComments ||
-            typeof rawComments !== 'object'
-        ) {
-            return [];
-        }
+        if (!rawComments || typeof rawComments !== 'object') return [];
 
         return Object.entries(rawComments)
             .map(([id, value]) => {
-                if (
-                    typeof value === 'string' ||
-                    typeof value === 'number'
-                ) {
-                    return {
-                        id,
-                        text: String(value),
-                        user: '',
-                        timestamp: 0
-                    };
+                if (typeof value === 'string' || typeof value === 'number') {
+                    return { id, text: String(value), user: '', timestamp: 0 };
                 }
 
-                if (
-                    value &&
-                    typeof value === 'object'
-                ) {
-                    const text =
-                        value.text ??
-                        value.comment ??
-                        value.message ??
-                        '';
-
+                if (value && typeof value === 'object') {
+                    const text = value.text ?? value.comment ?? value.message ?? '';
                     return {
                         id,
                         text: String(text),
                         user: String(value.user ?? ''),
-                        timestamp:
-                            Number(value.timestamp) || 0
+                        timestamp: Number(value.timestamp) || 0
                     };
                 }
 
                 return null;
             })
-            .filter((comment) => {
-                return (
-                    comment &&
-                    comment.text.trim() !== ''
-                );
-            });
+            .filter(comment => comment && comment.text.trim() !== '');
     }
 
-    function renderChatComments(menu) {
-        if (
-            !menu ||
-            activeSuggestionBallId !== menu.id ||
-            !activeChatWindow
-        ) {
-            return;
-        }
+    function renderChatComments(ball) {
+        if (!ball || activeSuggestionBallId !== ball.id || !activeChatWindow) return;
 
-        const listElement =
-            activeChatWindow.querySelector('.chat-list');
+        const listEl = activeChatWindow.querySelector('.chat-list');
+        if (!listEl) return;
+        listEl.innerHTML = '';
 
-        if (!listElement) {
-            return;
-        }
-
-        listElement.innerHTML = '';
-
-        if (!menu.commentsLoaded) {
-            const loading =
-                document.createElement('div');
-
+        if (!ball.commentsLoaded) {
+            const loading = document.createElement('div');
             loading.className = 'chat-empty';
-            loading.textContent =
-                '댓글을 불러오는 중...';
-
-            listElement.appendChild(loading);
+            loading.textContent = '댓글을 불러오는 중...';
+            listEl.appendChild(loading);
             return;
         }
 
-        if (menu.comments.length === 0) {
-            const empty =
-                document.createElement('div');
-
+        if (ball.comments.length === 0) {
+            const empty = document.createElement('div');
             empty.className = 'chat-empty';
-            empty.textContent =
-                '아직 댓글이 없습니다.';
-
-            listElement.appendChild(empty);
+            empty.textContent = '아직 댓글이 없습니다.';
+            listEl.appendChild(empty);
             return;
         }
 
-        menu.comments.forEach((comment) => {
-            const bubble =
-                document.createElement('div');
-
+        ball.comments.forEach(comment => {
+            const bubble = document.createElement('div');
             bubble.className = 'chat-bubble';
             bubble.textContent = comment.text;
-
-            listElement.appendChild(bubble);
+            listEl.appendChild(bubble);
         });
 
         requestAnimationFrame(() => {
-            listElement.scrollTop =
-                listElement.scrollHeight;
+            listEl.scrollTop = listEl.scrollHeight;
         });
     }
 
     function clearBallFocusStyles() {
-        menus.forEach((menu) => {
-            const element =
-                document.getElementById(menu.id);
-
-            if (element) {
-                element.classList.remove(
-                    'highlight',
-                    'dimmed',
-                    'interaction-disabled'
-                );
-            }
+        menus.forEach(m => {
+            const el = document.getElementById(m.id);
+            if (el) el.classList.remove('highlight', 'dimmed', 'interaction-disabled');
         });
     }
 
     function applyChatFocus(ballId) {
-        menus.forEach((menu) => {
-            const element =
-                document.getElementById(menu.id);
-
-            if (!element) {
-                return;
-            }
-
-            element.classList.remove(
-                'highlight',
-                'dimmed',
-                'interaction-disabled'
-            );
-
-            if (menu.id === ballId) {
-                element.classList.add('highlight');
-            } else {
-                element.classList.add('dimmed');
-            }
+        menus.forEach(m => {
+            const el = document.getElementById(m.id);
+            if (!el) return;
+            el.classList.remove('highlight', 'dimmed', 'interaction-disabled');
+            if (m.id === ballId) el.classList.add('highlight');
+            else el.classList.add('dimmed');
         });
     }
 
     async function handleLogin() {
-        const idValue =
-            document
-                .getElementById('userid')
-                .value
-                .trim();
-
-        const passwordValue =
-            pwInput.value.trim();
-
-        if (!/^[가-힣]+$/.test(idValue)) {
-            showToast("아이디는 한글만 가능합니다.");
-            return;
-        }
-
-        if (!/^\d{3}$/.test(passwordValue)) {
-            showToast("비밀번호는 숫자 3자리입니다.");
-            return;
-        }
-
+        const idVal = document.getElementById('userid').value.trim(), pwVal = pwInput.value.trim();
+        if (!/^[가-힣]+$/.test(idVal)) { showToast("아이디는 한글만 가능합니다."); return; }
+        if (!/^\d{3}$/.test(pwVal)) { showToast("비밀번호는 숫자 3자리입니다."); return; }
         try {
-            const snapshot = await get(
-                child(
-                    ref(db),
-                    `users/${idValue}`
-                )
-            );
-
+            const snapshot = await get(child(ref(db), `users/${idVal}`));
             let toastMessage = '';
 
             if (snapshot.exists()) {
-                if (
-                    snapshot.val().password !==
-                    passwordValue
-                ) {
-                    showToast("비밀번호가 틀렸습니다.");
-                    return;
+                if (snapshot.val().password !== pwVal) { 
+                    showToast("비밀번호가 틀렸습니다."); 
+                    return; 
                 }
-
                 toastMessage = "다시 로그인 함.";
             } else {
-                await set(
-                    ref(db, `users/${idValue}`),
-                    {
-                        password: passwordValue
-                    }
-                );
-
+                await set(ref(db, `users/${idVal}`), { password: pwVal });
                 toastMessage = "새로운 사람.";
             }
 
-            currentUser = idValue;
-
-            document
-                .getElementById('login-page')
-                .style
-                .display = 'none';
-
-            document
-                .getElementById('main-page')
-                .style
-                .display = 'flex';
-
-            if (!engine) {
-                initPhysics();
-                initFirebaseListeners();
-            }
-
+            currentUser = idVal;
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('main-page').style.display = 'flex';
+            if (!engine) { initPhysics(); initFirebaseListeners(); }
+            
             showToast(toastMessage, 1800);
-        } catch (error) {
-            showToast("DB 연결 오류가 발생했습니다.");
+        } catch (e) { 
+            showToast("DB 연결 오류가 발생했습니다."); 
         }
     }
 
     function throwMenu() {
         const text = menuInput.value.trim();
-
-        if (!text) {
-            return;
-        }
-
-        push(
-            ref(db, 'menus'),
-            {
-                text,
-                user: currentUser,
-                timestamp: Date.now()
-            }
-        );
-
+        if (!text) return;
+        push(ref(db, 'menus'), { text: text, user: currentUser, timestamp: Date.now() });
         menuInput.value = '';
     }
 
     function initFirebaseListeners() {
-        onChildAdded(
-            ref(db, 'menus'),
-            (data) => {
-                const value = data.val();
-                const ballId = data.key;
-                const radius =
-                    45 + Math.random() * 8;
+        onChildAdded(ref(db, 'menus'), (data) => {
+            const val = data.val(), ballId = data.key;
+            const radius = 45 + (Math.random() * 8);
+            
+            const newMenu = { 
+                id: ballId, 
+                user: val.user, 
+                text: val.text, 
+                radius: radius, 
+                baseRadius: radius, 
+                launchStart: null,
+                commentCount: 0,
+                comments: [],
+                commentsLoaded: false
+            };
 
-                const newMenu = {
-                    id: ballId,
-                    user: value.user,
-                    text: value.text,
-                    radius,
-                    baseRadius: radius,
-                    launchStart: null,
-                    commentCount: 0,
-                    comments: [],
-                    commentsLoaded: false
-                };
+            const ballEl = document.createElement('div');
+            ballEl.id = ballId;
+            ballEl.className = 'menu-ball';
+            ballEl.innerHTML = getBallInnerHTML(newMenu);
+            ballEl.style.width = ballEl.style.height = (radius * 2) + 'px';
+            ballEl.style.backgroundColor = pastelColors[menus.length % pastelColors.length];
+            
+            ballEl.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                handleBallClick(ballId, val.text, val.user); 
+            });
+            
+            arenaEl.appendChild(ballEl);
+            const spawn = findSpawnPosition(radius);
+            const body = Bodies.circle(spawn.x, spawn.y, radius, { restitution: 1, friction: 0, frictionStatic: 0, frictionAir: 0, density: 0.02, slop: 0 });
+            Composite.add(engine.world, body);
+            
+            newMenu.body = body;
+            menus.push(newMenu);
+            
+            recalculateSizes(); resolveOverlaps(); launchBall(newMenu); updateUI();
+            if (activeSuggestionBallId) applyChatFocus(activeSuggestionBallId);
 
-                const ballElement =
-                    document.createElement('div');
+            // 실시간 댓글 카운터 + 댓글 내용 리스너
+            const commentsRef = ref(db, `menus/${ballId}/comments`);
+            onValue(commentsRef, (snapshot) => {
+                const m = menus.find(menu => menu.id === ballId);
+                if (!m) return;
 
-                ballElement.id = ballId;
-                ballElement.className = 'menu-ball';
-                ballElement.innerHTML =
-                    getBallInnerHTML(newMenu);
+                m.comments = normalizeComments(snapshot.val());
+                m.commentCount = m.comments.length;
+                m.commentsLoaded = true;
 
-                ballElement.style.width =
-                    `${radius * 2}px`;
+                // 삭제 확인 오버레이가 떠 있지 않을 때만 공 내용을 갱신합니다.
+                const el = document.getElementById(ballId);
+                if (el && !el.querySelector('.delete-overlay')) {
+                    el.innerHTML = getBallInnerHTML(m);
+                }
 
-                ballElement.style.height =
-                    `${radius * 2}px`;
-
-                ballElement.style.backgroundColor =
-                    pastelColors[
-                        menus.length %
-                        pastelColors.length
-                    ];
-
-                ballElement.addEventListener(
-                    'click',
-                    (event) => {
-                        event.stopPropagation();
-
-                        handleBallClick(
-                            ballId,
-                            value.text,
-                            value.user
-                        );
-                    }
-                );
-
-                arenaEl.appendChild(ballElement);
-
-                const spawn =
-                    findSpawnPosition(radius);
-
-                const body = Bodies.circle(
-                    spawn.x,
-                    spawn.y,
-                    radius,
-                    {
-                        restitution: 1,
-                        friction: 0,
-                        frictionStatic: 0,
-                        frictionAir: 0,
-                        density: 0.02,
-                        slop: 0
-                    }
-                );
-
-                Composite.add(engine.world, body);
-
-                newMenu.body = body;
-                menus.push(newMenu);
-
+                // 이미 열려 있는 댓글창에도 즉시 반영합니다.
+                renderChatComments(m);
+            });
+        });
+        
+        onChildRemoved(ref(db, 'menus'), (data) => {
+            const index = menus.findIndex(m => m.id === data.key);
+            if (index > -1) {
+                if (activeSuggestionBallId === data.key) closeSuggestionMode();
+                Composite.remove(engine.world, menus[index].body);
+                document.getElementById(data.key)?.remove();
+                menus.splice(index, 1);
                 recalculateSizes();
-                resolveOverlaps();
-                launchBall(newMenu);
                 updateUI();
-
-                if (activeSuggestionBallId) {
-                    applyChatFocus(
-                        activeSuggestionBallId
-                    );
-                }
-
-                const commentsReference =
-                    ref(
-                        db,
-                        `menus/${ballId}/comments`
-                    );
-
-                onValue(
-                    commentsReference,
-                    (snapshot) => {
-                        const menu = menus.find(
-                            (item) =>
-                                item.id === ballId
-                        );
-
-                        if (!menu) {
-                            return;
-                        }
-
-                        menu.comments =
-                            normalizeComments(
-                                snapshot.val()
-                            );
-
-                        menu.commentCount =
-                            menu.comments.length;
-
-                        menu.commentsLoaded = true;
-
-                        const element =
-                            document.getElementById(
-                                ballId
-                            );
-
-                        if (
-                            element &&
-                            !element.querySelector(
-                                '.delete-overlay'
-                            )
-                        ) {
-                            element.innerHTML =
-                                getBallInnerHTML(menu);
-                        }
-
-                        renderChatComments(menu);
-                    }
-                );
             }
-        );
-
-        onChildRemoved(
-            ref(db, 'menus'),
-            (data) => {
-                const index =
-                    menus.findIndex(
-                        (menu) =>
-                            menu.id === data.key
-                    );
-
-                if (index > -1) {
-                    if (
-                        activeSuggestionBallId ===
-                        data.key
-                    ) {
-                        closeSuggestionMode();
-                    }
-
-                    Composite.remove(
-                        engine.world,
-                        menus[index].body
-                    );
-
-                    document
-                        .getElementById(data.key)
-                        ?.remove();
-
-                    menus.splice(index, 1);
-
-                    recalculateSizes();
-                    updateUI();
-                }
-            }
-        );
+        });
     }
 
     function toggleMyMenu() {
-        if (activeSuggestionBallId) {
-            closeSuggestionMode();
-        }
-
+        if (activeSuggestionBallId) closeSuggestionMode();
         isPaused = !isPaused;
 
-        myMenuBtn.classList.toggle(
-            'active',
-            isPaused
-        );
-
+        myMenuBtn.classList.toggle('active', isPaused);
         clearBallFocusStyles();
 
-        menus.forEach((menu) => {
-            const element =
-                document.getElementById(menu.id);
-
-            if (!element) {
-                return;
-            }
+        menus.forEach(m => {
+            const el = document.getElementById(m.id);
+            if (!el) return;
 
             if (isPaused) {
-                if (menu.user === currentUser) {
-                    element.classList.add(
-                        'highlight'
-                    );
+                if (m.user === currentUser) {
+                    el.classList.add('highlight');
                 } else {
-                    element.classList.add(
-                        'dimmed',
-                        'interaction-disabled'
-                    );
+                    el.classList.add('dimmed', 'interaction-disabled');
                 }
             } else {
-                element.innerHTML =
-                    getBallInnerHTML(menu);
+                el.innerHTML = getBallInnerHTML(m);
             }
         });
     }
 
-    function handleBallClick(
-        ballId,
-        text,
-        user
-    ) {
+    function handleBallClick(ballId, text, user) {
         if (isPaused) {
-            if (user !== currentUser) {
-                return;
-            }
-
-            const ballElement =
-                document.getElementById(ballId);
-
-            if (
-                !ballElement ||
-                ballElement.querySelector(
-                    '.delete-overlay'
-                )
-            ) {
-                return;
-            }
-
-            menus.forEach((menu) => {
-                const otherElement =
-                    document.getElementById(
-                        menu.id
-                    );
-
-                if (
-                    otherElement &&
-                    otherElement.querySelector(
-                        '.delete-overlay'
-                    )
-                ) {
-                    otherElement.innerHTML =
-                        getBallInnerHTML(menu);
-                }
+            // 삭제 모드일 때
+            if (user !== currentUser) return;
+            const ballEl = document.getElementById(ballId);
+            if (!ballEl || ballEl.querySelector('.delete-overlay')) return;
+            menus.forEach(m => {
+                const otherEl = document.getElementById(m.id);
+                if (otherEl && otherEl.querySelector('.delete-overlay')) otherEl.innerHTML = getBallInnerHTML(m);
             });
-
-            ballElement.innerHTML = `
-                <div class="delete-overlay">x</div>
-            `;
-
-            ballElement
-                .querySelector('.delete-overlay')
-                .onclick = (event) => {
-                    event.stopPropagation();
-
-                    remove(
-                        ref(
-                            db,
-                            `menus/${ballId}`
-                        )
-                    );
-                };
-
-            return;
+            ballEl.innerHTML = `<div class="delete-overlay">x</div>`;
+            ballEl.querySelector('.delete-overlay').onclick = (e) => { e.stopPropagation(); remove(ref(db, `menus/${ballId}`)); };
+        } else {
+            // 댓글 모드 활성화
+            if (activeSuggestionBallId === ballId) return; 
+            if (activeSuggestionBallId) closeSuggestionMode(); 
+            openSuggestionMode(ballId);
         }
-
-        if (
-            activeSuggestionBallId === ballId
-        ) {
-            return;
-        }
-
-        if (activeSuggestionBallId) {
-            closeSuggestionMode();
-        }
-
-        openSuggestionMode(ballId);
     }
 
-    document.addEventListener(
-        'click',
-        (event) => {
-            if (activeSuggestionBallId) {
-                const clickedChat =
-                    event.target.closest(
-                        '.chat-window'
-                    );
-
-                if (clickedChat) {
-                    return;
-                }
-
-                closeSuggestionMode();
-                return;
-            }
-
-            if (!isPaused) {
-                return;
-            }
-
-            const clickedBall =
-                event.target.closest(
-                    '.menu-ball'
-                );
-
-            const clickedDelete =
-                event.target.closest(
-                    '.delete-overlay'
-                );
-
-            if (clickedDelete) {
-                return;
-            }
-
-            menus.forEach((menu) => {
-                const element =
-                    document.getElementById(
-                        menu.id
-                    );
-
-                if (
-                    element &&
-                    element.querySelector(
-                        '.delete-overlay'
-                    )
-                ) {
-                    if (
-                        !clickedBall ||
-                        clickedBall.id !== menu.id
-                    ) {
-                        element.innerHTML =
-                            getBallInnerHTML(menu);
-                    }
-                }
-            });
+    document.addEventListener('click', (e) => {
+        // 채팅창 바깥 빈공간 클릭 시 닫기
+        if (activeSuggestionBallId) {
+            const clickedChat = e.target.closest('.chat-window');
+            if (clickedChat) return; 
+            closeSuggestionMode();
+            return; 
         }
-    );
 
+        // 삭제 모드 취소 로직
+        if (!isPaused) return;
+        const clickedBall = e.target.closest('.menu-ball');
+        const clickedDelete = e.target.closest('.delete-overlay');
+        if (clickedDelete) return;
+        menus.forEach(m => {
+            const el = document.getElementById(m.id);
+            if (el && el.querySelector('.delete-overlay')) {
+                if (!clickedBall || clickedBall.id !== m.id) {
+                    el.innerHTML = getBallInnerHTML(m);
+                }
+            }
+        });
+    });
+
+    // 댓글창은 너무 좁아지지 않도록 최소 가로 폭을 유지합니다.
+    // 공이 가운데에 있어 양옆 공간이 부족한 경우에는 댓글창을 아레나 오른쪽에 맞춰 배치합니다.
     function getBestChatPlacement(ball) {
         const margin = 4;
+        const visualRadius = ball.radius * 1.08;
+        const diagonal = visualRadius / Math.SQRT2;
+        const bx = ball.body.position.x;
+        const by = ball.body.position.y;
 
-        const visualRadius =
-            ball.radius * 1.08;
+        const availableArenaWidth = Math.max(1, arenaWidth - margin * 2);
+        const availableArenaHeight = Math.max(1, arenaHeight - margin * 2);
 
-        const diagonal =
-            visualRadius / Math.SQRT2;
+        // 전송 버튼이 항상 가로로 온전히 보이도록 댓글창의 폭을 줄이지 않습니다.
+        const preferredWidth = clamp(arenaWidth * 0.58, 220, 340);
+        const width = Math.min(preferredWidth, availableArenaWidth);
 
-        const ballX =
-            ball.body.position.x;
-
-        const ballY =
-            ball.body.position.y;
-
-        const preferredWidth = clamp(
-            arenaWidth * 0.58,
-            220,
-            340
-        );
-
-        const preferredHeight = clamp(
-            arenaHeight * 0.58,
-            180,
-            300
-        );
-
-        const minimumWidth = Math.min(
-            150,
-            arenaWidth - margin * 2
-        );
-
-        const minimumHeight = Math.min(
-            105,
-            arenaHeight - margin * 2
-        );
+        const preferredHeight = clamp(arenaHeight * 0.58, 180, 300);
+        const minimumHeight = Math.min(130, availableArenaHeight);
+        const height = clamp(preferredHeight, minimumHeight, availableArenaHeight);
 
         const candidates = [
             {
-                horizontal: 'right',
-                vertical: 'down',
-                attachClass: 'attach-top-left',
-                anchorX: ballX + diagonal,
-                anchorY: ballY + diagonal
+                horizontal: 'right', vertical: 'down', attachClass: 'attach-top-left',
+                anchorX: bx + diagonal, anchorY: by + diagonal,
+                horizontalPriority: 1
             },
-
             {
-                horizontal: 'left',
-                vertical: 'down',
-                attachClass: 'attach-top-right',
-                anchorX: ballX - diagonal,
-                anchorY: ballY + diagonal
+                horizontal: 'left', vertical: 'down', attachClass: 'attach-top-right',
+                anchorX: bx - diagonal, anchorY: by + diagonal,
+                horizontalPriority: 0
             },
-
             {
-                horizontal: 'right',
-                vertical: 'up',
-                attachClass: 'attach-bottom-left',
-                anchorX: ballX + diagonal,
-                anchorY: ballY - diagonal
+                horizontal: 'right', vertical: 'up', attachClass: 'attach-bottom-left',
+                anchorX: bx + diagonal, anchorY: by - diagonal,
+                horizontalPriority: 1
             },
-
             {
-                horizontal: 'left',
-                vertical: 'up',
-                attachClass: 'attach-bottom-right',
-                anchorX: ballX - diagonal,
-                anchorY: ballY - diagonal
+                horizontal: 'left', vertical: 'up', attachClass: 'attach-bottom-right',
+                anchorX: bx - diagonal, anchorY: by - diagonal,
+                horizontalPriority: 0
             }
-        ].map((candidate) => {
-            const availableWidth =
-                candidate.horizontal === 'right'
-                    ? arenaWidth -
-                      margin -
-                      candidate.anchorX
-                    : candidate.anchorX -
-                      margin;
+        ].map(candidate => {
+            const idealLeft = candidate.horizontal === 'right'
+                ? candidate.anchorX
+                : candidate.anchorX - width;
+            const idealTop = candidate.vertical === 'down'
+                ? candidate.anchorY
+                : candidate.anchorY - height;
 
-            const availableHeight =
-                candidate.vertical === 'down'
-                    ? arenaHeight -
-                      margin -
-                      candidate.anchorY
-                    : candidate.anchorY -
-                      margin;
+            const left = clamp(idealLeft, margin, arenaWidth - width - margin);
+            const top = clamp(idealTop, margin, arenaHeight - height - margin);
 
-            const width = Math.max(
-                0,
-                Math.min(
-                    preferredWidth,
-                    availableWidth
-                )
-            );
+            // 이상적인 연결 위치에서 얼마나 이동했는지 계산합니다.
+            const horizontalShift = Math.abs(left - idealLeft);
+            const verticalShift = Math.abs(top - idealTop);
+            const totalShift = horizontalShift + verticalShift;
 
-            const height = Math.max(
-                0,
-                Math.min(
-                    preferredHeight,
-                    availableHeight
-                )
-            );
-
-            const meetsMinimum =
-                width >= minimumWidth &&
-                height >= minimumHeight;
+            // 이동량이 적은 방향을 우선합니다. 같은 조건이면 오른쪽 배치를 우선합니다.
+            const score = totalShift * 100 - candidate.horizontalPriority;
 
             return {
                 ...candidate,
-                availableWidth,
-                availableHeight,
                 width,
                 height,
-                meetsMinimum,
-                score: width * height
+                left,
+                top,
+                score
             };
         });
 
-        const usableCandidates =
-            candidates.filter(
-                (candidate) =>
-                    candidate.meetsMinimum
-            );
-
-        const candidatePool =
-            usableCandidates.length
-                ? usableCandidates
-                : candidates;
-
-        return candidatePool.sort(
-            (first, second) =>
-                second.score -
-                first.score
-        )[0];
+        return candidates.sort((a, b) => a.score - b.score)[0];
     }
 
-    function positionChatWindow(
-        ballId,
-        chatWindow
-    ) {
-        const ball = menus.find(
-            (menu) =>
-                menu.id === ballId
-        );
+    function positionChatWindow(ballId, chatWin) {
+        const ball = menus.find(m => m.id === ballId);
+        if (!ball || !chatWin) return;
 
-        if (!ball || !chatWindow) {
-            return;
-        }
+        const placement = getBestChatPlacement(ball);
 
-        const placement =
-            getBestChatPlacement(ball);
-
-        const margin = 4;
-
-        const width = Math.max(
-            1,
-            Math.min(
-                placement.width,
-                arenaWidth - margin * 2
-            )
-        );
-
-        const height = Math.max(
-            1,
-            Math.min(
-                placement.height,
-                arenaHeight - margin * 2
-            )
-        );
-
-        let left =
-            placement.horizontal === 'right'
-                ? placement.anchorX
-                : placement.anchorX - width;
-
-        let top =
-            placement.vertical === 'down'
-                ? placement.anchorY
-                : placement.anchorY - height;
-
-        left = clamp(
-            left,
-            margin,
-            arenaWidth - width - margin
-        );
-
-        top = clamp(
-            top,
-            margin,
-            arenaHeight - height - margin
-        );
-
-        chatWindow.classList.remove(
+        chatWin.classList.remove(
             'attach-top-left',
             'attach-top-right',
             'attach-bottom-left',
             'attach-bottom-right'
         );
-
-        chatWindow.classList.add(
-            placement.attachClass
-        );
-
-        chatWindow.style.width =
-            `${width}px`;
-
-        chatWindow.style.height =
-            `${height}px`;
-
-        chatWindow.style.left =
-            `${left}px`;
-
-        chatWindow.style.top =
-            `${top}px`;
+        chatWin.classList.add(placement.attachClass);
+        chatWin.style.width = `${placement.width}px`;
+        chatWin.style.height = `${placement.height}px`;
+        chatWin.style.left = `${placement.left}px`;
+        chatWin.style.top = `${placement.top}px`;
     }
 
     function openSuggestionMode(ballId) {
-        const ball = menus.find(
-            (menu) =>
-                menu.id === ballId
-        );
-
-        if (!ball) {
-            return;
-        }
+        const ball = menus.find(m => m.id === ballId);
+        if (!ball) return;
 
         activeSuggestionBallId = ballId;
-
         applyChatFocus(ballId);
 
-        const chatWindow =
-            document.createElement('div');
-
-        chatWindow.className =
-            'chat-window';
-
-        chatWindow.innerHTML = `
-            <div
-                class="chat-list"
-                id="chat-list-${ballId}"
-            ></div>
-
+        const chatWin = document.createElement('div');
+        chatWin.className = 'chat-window';
+        chatWin.innerHTML = `
+            <div class="chat-list" id="chat-list-${ballId}"></div>
             <div class="chat-input-row">
-                <input
-                    type="text"
-                    class="chat-input"
-                    placeholder="댓글 입력..."
-                />
-
-                <button
-                    type="button"
-                    class="chat-send-btn"
-                >
-                    전송
-                </button>
+                <input type="text" class="chat-input" placeholder="댓글 입력..." />
+                <button type="button" class="chat-send-btn">전송</button>
             </div>
         `;
 
-        arenaEl.appendChild(chatWindow);
-
-        activeChatWindow = chatWindow;
-
-        positionChatWindow(
-            ballId,
-            chatWindow
-        );
-
+        arenaEl.appendChild(chatWin);
+        activeChatWindow = chatWin;
+        positionChatWindow(ballId, chatWin);
         renderChatComments(ball);
 
-        const input =
-            chatWindow.querySelector(
-                '.chat-input'
-            );
-
-        const sendButton =
-            chatWindow.querySelector(
-                '.chat-send-btn'
-            );
+        const input = chatWin.querySelector('.chat-input');
+        const sendBtn = chatWin.querySelector('.chat-send-btn');
 
         const sendComment = async () => {
-            const text =
-                input.value.trim();
+            const text = input.value.trim();
+            if (!text) return;
 
-            if (!text) {
-                return;
-            }
-
-            sendButton.disabled = true;
-
+            sendBtn.disabled = true;
             try {
-                await push(
-                    ref(
-                        db,
-                        `menus/${ballId}/comments`
-                    ),
-                    text
-                );
-
+                // 기존 DB 구조와 호환되도록 댓글은 문자열로 저장합니다.
+                await push(ref(db, `menus/${ballId}/comments`), text);
                 input.value = '';
                 input.focus();
             } catch (error) {
-                showToast(
-                    '댓글 전송에 실패했습니다.'
-                );
+                showToast('댓글 전송에 실패했습니다.');
             } finally {
-                sendButton.disabled = false;
+                sendBtn.disabled = false;
             }
         };
 
-        sendButton.addEventListener(
-            'click',
-            sendComment
-        );
-
-        input.addEventListener(
-            'keydown',
-            (event) => {
-                if (
-                    event.key === 'Enter' &&
-                    !event.isComposing
-                ) {
-                    event.preventDefault();
-                    sendComment();
-                }
+        sendBtn.addEventListener('click', sendComment);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.isComposing) {
+                e.preventDefault();
+                sendComment();
             }
-        );
+        });
     }
 
     function closeSuggestionMode() {
-        if (activeChatWindow) {
-            activeChatWindow.remove();
-        }
-
+        if (activeChatWindow) activeChatWindow.remove();
         activeChatWindow = null;
         activeSuggestionBallId = null;
-
-        if (!isPaused) {
-            clearBallFocusStyles();
-        }
+        if (!isPaused) clearBallFocusStyles();
     }
 
     function updateListLayout() {
-        const listContainer =
-            document.getElementById(
-                'menu-list'
-            );
-
-        if (
-            !listContainer ||
-            menus.length === 0
-        ) {
-            return;
-        }
-
-        const rows = Math.max(
-            1,
-            Math.floor(
-                (
-                    listContainer.clientHeight ||
-                    300
-                ) / 52
-            )
-        );
-
-        const columns = Math.max(
-            1,
-            Math.ceil(
-                menus.length / rows
-            )
-        );
-
-        listContainer.style.gridTemplateRows =
-            `repeat(${rows}, minmax(44px, 1fr))`;
-
-        listContainer.style.gridTemplateColumns =
-            `repeat(${columns}, minmax(120px, 1fr))`;
+        const listContainer = document.getElementById('menu-list');
+        if (!listContainer || menus.length === 0) return;
+        const rows = Math.max(1, Math.floor((listContainer.clientHeight || 300) / 52));
+        const cols = Math.max(1, Math.ceil(menus.length / rows));
+        listContainer.style.gridTemplateRows = `repeat(${rows}, minmax(44px, 1fr))`;
+        listContainer.style.gridTemplateColumns = `repeat(${cols}, minmax(120px, 1fr))`;
     }
 
     function updateUI() {
-        document
-            .getElementById('menu-count')
-            .innerText = menus.length;
-
-        const listContainer =
-            document.getElementById(
-                'menu-list'
-            );
-
-        listContainer.innerHTML =
-            menus.length === 0
-                ? `
-                    <div class="empty-msg">
-                        아직 쳐묵할 메뉴가 없습니다.
-                    </div>
-                `
-                : '';
-
-        menus.forEach((menu) => {
-            const item =
-                document.createElement('div');
-
-            item.className = 'list-item';
-            item.innerText = menu.text;
-
-            listContainer.appendChild(item);
+        document.getElementById('menu-count').innerText = menus.length;
+        const listContainer = document.getElementById('menu-list');
+        listContainer.innerHTML = menus.length === 0 ? '<div class="empty-msg">아직 쳐묵할 메뉴가 없습니다.</div>' : '';
+        menus.forEach(m => {
+            const div = document.createElement('div');
+            div.className = 'list-item';
+            div.innerText = m.text;
+            listContainer.appendChild(div);
         });
-
-        requestAnimationFrame(
-            updateListLayout
-        );
+        requestAnimationFrame(updateListLayout);
     }
 
     function toggleModal() {
-        const modal =
-            document.getElementById('modal');
-
-        modal.style.display =
-            modal.style.display === 'flex'
-                ? 'none'
-                : 'flex';
-
-        if (modal.style.display === 'flex') {
-            requestAnimationFrame(
-                updateListLayout
-            );
-        }
+        const modal = document.getElementById('modal');
+        modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        if (modal.style.display === 'flex') requestAnimationFrame(updateListLayout);
     }
 </script>
 </body>
