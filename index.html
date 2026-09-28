@@ -2,8 +2,10 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>몬테비얀코 쳐묵 기행</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>October 3 · 몬테비얀코 쳐묵 기행</title>
+    <meta name="theme-color" content="#234d3e">
+    <meta name="description" content="10월 3일, 함께 고르는 캠핑 메뉴. 메뉴를 쏘고 좋아요를 누르며 사진과 이야기를 나누세요.">
 
     <!-- Matter.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
@@ -97,7 +99,7 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border: none; 
+            border: none;
             border-radius: 12px;
             background: transparent;
             display: block;
@@ -133,7 +135,7 @@
             padding: 0 52px;
             text-align: center;
         }
-        
+
         #camp-address {
             line-height: 1.35;
             white-space: nowrap;
@@ -478,6 +480,129 @@
         .empty-msg { text-align: center; padding: 30px; color: #888; font-size: 14px; grid-column: 1 / -1; align-self: center; justify-self: center; }
         #toast { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) translateY(12px); opacity: 0; pointer-events: none; z-index: 400; min-width: 180px; max-width: 80%; padding: 14px 18px; border: 2px solid var(--line-color); background: #fff; border-radius: 14px; box-shadow: 4px 4px 0 rgba(0,0,0,0.18); text-align: center; font-weight: 700; transition: opacity 0.4s ease, transform 0.4s ease; }
         #toast.show { opacity: 1; transform: translate(-50%, -50%) translateY(0); }
+/* October picnic refresh */
+:root { --bg-color:#fcfaf4; --line-color:#263f35; --accent-green:#d9ed93; --accent-pink:#f4c5af; }
+body { background:#e8eee7; }
+button,input { font-size:16px; }
+button { touch-action:manipulation; }
+button:disabled { opacity:.5; cursor:wait; }
+button:focus-visible,input:focus-visible,.menu-ball:focus-visible { outline:3px solid #de6c34; outline-offset:3px; }
+[hidden] { display:none!important; }
+#app-container { width:100%; height:100dvh; border:0; border-radius:0; box-shadow:none; }
+#login-page { overflow-y:auto; padding:24px; justify-content:safe center; background:#fcfaf4; }
+.login-box { width:100%; max-width:380px; gap:12px; padding:8px 0; }
+.hero-image { height:auto; max-height:250px; aspect-ratio:3/2; object-fit:cover; border-radius:20px; }
+.event-date { text-align:center; color:#a34421; font-size:15px; letter-spacing:4px; font-weight:800; margin-top:4px; }
+.login-title { font-size:27px; letter-spacing:-1px; margin:0 0 6px; }
+.camp-info { font-size:14px; gap:5px; margin:0 0 8px; }
+.address-row { padding:0 44px 0 0; }
+#camp-address { white-space:normal; }
+#copy-addr-btn { font-size:12px; padding:6px; }
+.hint { font-size:13px; text-align:left; margin:0; }
+.login-box input { background:#fff; border:1px solid #b7c4bb; padding:13px; }
+#login-btn { background:#234d3e; color:#fff; padding:14px; border-color:#234d3e; }
+.text-button { background:none; border:none; font-size:14px; color:#66766d; padding:5px; }
+#top-bar { flex:0 0 78px; height:auto; min-height:0; padding:12px 28px; border-bottom:1px solid #c6d2c7; }
+.brand { display:flex; align-items:baseline; gap:16px; }
+.brand strong { font-size:22px; letter-spacing:-1px; }
+.small-date { color:#a34421; font-family:Georgia,serif; font-size:22px; font-style:italic; }
+.top-actions { display:flex; align-items:center; gap:10px; }
+#user-badge { font-size:14px; color:#5b7062; }
+.top-actions button { border:1px solid #b9c9bd; font-size:14px; padding:9px 12px; }
+.workspace { flex:1; min-height:0; display:grid; grid-template-columns:minmax(300px,36%) 1fr; }
+#community-panel { display:flex; flex-direction:column; min-height:0; min-width:0; border-right:1px solid #bfcebf; background:#fff; }
+.panel-heading { padding:24px 24px 18px; display:flex; align-items:center; justify-content:space-between; }
+.eyebrow { font-size:11px; font-weight:800; letter-spacing:1.7px; color:#6d7e71; }
+h2 { font-size:22px; letter-spacing:-.6px; margin-top:7px; }
+.chat-symbol { font-size:30px; color:#a34421; }
+.chat-tabs { display:flex; gap:8px; padding:0 24px 14px; border-bottom:1px solid #e1e7df; }
+.chat-tabs button { border:0; font-size:14px; padding:9px 14px; border-radius:30px; color:#617368; background:#f0f3ec; }
+.chat-tabs button[aria-selected=true] { color:#fff; background:#234d3e; }
+#conversation-title { padding:12px 24px; font-size:13px; color:#607366; background:#fafbf7; border-bottom:1px solid #e6eae3; }
+.chat-list { min-height:0; background:#fff; padding:18px; gap:12px; overscroll-behavior:contain; }
+.chat-empty { font-size:14px; color:#758176; line-height:1.7; }
+.chat-bubble { max-width:90%; align-self:flex-start; padding:10px 13px; border:1px solid #e0e5db; border-radius:3px 16px 16px 16px; font-size:15px; background:#f6f8f0; box-shadow:none; line-height:1.5; white-space:normal; }
+.chat-bubble.mine { align-self:flex-end; background:#eaf1dd; border-color:#d4dfc8; border-radius:16px 3px 16px 16px; }
+.message-meta { display:flex; align-items:center; gap:8px; color:#62745f; font-size:12px; margin-bottom:5px; }
+.message-meta strong { font-size:13px; }
+.message-text { white-space:pre-wrap; overflow-wrap:anywhere; }
+.message-photo { display:block; padding:0; border:0; border-radius:10px; margin:7px 0 2px; overflow:hidden; background:none; }
+.message-photo img { display:block; width:100%; max-width:240px; max-height:260px; object-fit:cover; }
+.message-delete { border:0; background:none; font-size:12px; color:#a34421; padding:0 3px; margin-left:auto; }
+.composer { border-top:1px solid #d8e0d2; padding:12px; background:#fafbf7; }
+.composer-row { display:flex; gap:7px; align-items:flex-end; }
+.composer textarea { flex:1; width:0; min-height:44px; height:44px; max-height:120px; resize:vertical; font:16px var(--font-main); padding:11px; border:1px solid #c3cfbe; border-radius:10px; background:#fff; }
+.composer button { flex-shrink:0; height:44px; padding:0 12px; border:1px solid #c3cfbe; font-size:14px; }
+.composer .send { color:#fff; background:#234d3e; border-color:#234d3e; }
+.composer-note { font-size:12px; color:#788371; margin:7px 0 0 3px; }
+.attachment-preview { display:flex; gap:10px; align-items:center; padding:0 0 10px; font-size:13px; }
+.attachment-preview img { width:64px; height:64px; object-fit:cover; border-radius:8px; }
+.arena-panel { display:flex; flex-direction:column; min-width:0; min-height:0; background:#f2f4e9; }
+.arena-heading { flex:0 0 auto; padding:24px 28px 8px; }
+.arena-heading h2 { font-size:25px; }
+.arena-heading p { font-size:13px; color:#75816e; margin-top:9px; }
+#arena { flex:1; height:auto; min-height:0; background:none; }
+#arena-empty { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; color:#7a866f; font-size:16px; line-height:1.8; pointer-events:none; }
+.menu-ball { border:1.5px solid #556149; box-shadow:2px 4px 0 #283d2415; gap:1px; }
+.ball-text { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; max-width:100%; }
+.ball-user { color:#475b45; }
+.ball-like { border:0; border-radius:20px; background:#ffffff70; color:#45543e; font-size:14px; min-height:24px; padding:1px 7px; line-height:1.3; margin-top:3px; }
+.ball-like.liked { color:#ae3d29; background:#fff9; }
+.ball-comment-count { margin:0; font-size:10px; }
+#bottom-bar { flex:0 0 auto; height:auto; padding:14px 24px max(14px,env(safe-area-inset-bottom)); border-top:1px solid #c6d2c7; justify-content:flex-end; }
+#menu-input { flex:1; max-width:none; background:#fff; border:1px solid #afc0ac; }
+#throw-btn { flex:0 0 auto; background:#d9ed93; padding:0 22px; border:1px solid #748950; }
+#my-menu-btn { flex:0 0 60px; font-size:14px; border:1px solid #c6aa96; background:#f7e5d8; }
+#modal { top:10%; left:15%; width:70%; height:78%; border:1px solid #91a187; border-radius:18px; }
+.modal-content { display:flex; flex-direction:column; overflow-y:auto; align-content:normal; }
+.modal-header { border-bottom:1px solid #c8d4c0; }
+.modal-header button { padding:7px 10px; border:0; font-size:14px; }
+.list-item { display:flex; justify-content:space-between; gap:8px; padding:9px 12px; flex-shrink:0; }
+.menu-list-name { display:flex; flex:1; min-width:0; text-align:left; flex-direction:column; border:0; background:none; padding:4px; }
+.menu-list-name strong { overflow-wrap:anywhere; }
+.menu-list-name small { font-size:12px; color:#718068; margin-top:3px; }
+.list-like,.delete-button { font-size:14px; border:1px solid #d3dccb; padding:7px 10px; }
+.delete-button { color:#9c3d26; }
+#photo-viewer { margin:auto; max-width:95vw; max-height:94dvh; border:0; background:#fcfaf4; padding:12px; border-radius:16px; }
+#photo-viewer::backdrop { background:#152419bb; }
+#photo-viewer img { display:block; max-width:88vw; max-height:78dvh; object-fit:contain; }
+#photo-close { display:block; margin-left:auto; margin-bottom:10px; border:0; }
+#toast { top:auto; bottom:95px; transform:translateX(-50%); font-size:14px; max-width:90%; border:1px solid #74856d; }
+#toast.show { transform:translateX(-50%); }
+@media(min-width:1200px) { #app-container { width:min(1320px,95vw); height:min(860px,94dvh); border:1px solid #bdcabc; border-radius:24px; box-shadow:0 20px 70px #273b2420; } }
+@media(max-width:700px) {
+ #top-bar { flex-basis:64px; padding:10px 14px; }
+ .brand { flex-direction:column; gap:1px; }
+ .brand strong { font-size:17px; }
+ .small-date { font-size:15px; }
+ .top-actions { gap:6px; }
+ .top-actions button { padding:8px; font-size:13px; }
+ #user-badge { max-width:60px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; }
+ .workspace { display:flex; flex-direction:column-reverse; }
+ .arena-panel { flex:0 0 36%; min-height:140px; }
+ .arena-heading { padding:10px 14px 0; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+ .arena-heading .eyebrow { display:none; }
+ .arena-heading h2 { font-size:15px; margin:0; }
+ .arena-heading p { font-size:11px; margin:0; }
+ #community-panel { flex:1; border-right:0; border-top:1px solid #c6d2c7; }
+ .panel-heading { display:none; }
+ .chat-tabs { padding:8px 12px; gap:6px; }
+ .chat-tabs button { padding:7px 12px; }
+ #conversation-title { padding:6px 14px; font-size:12px; }
+ .chat-list { padding:10px 12px; gap:8px; }
+ .chat-bubble { padding:7px 11px; }
+ .composer { padding:8px 10px; }
+ .composer-note { display:none; }
+ #bottom-bar { padding:9px 10px max(9px,env(safe-area-inset-bottom)); gap:6px; }
+ #throw-btn { padding:0 12px; font-size:14px; }
+ #my-menu-btn { flex-basis:45px; }
+ #menu-input { font-size:16px; padding:8px; }
+ #modal { left:4%; width:92%; }
+ .hero-image { max-height:220px; }
+ .login-title { font-size:25px; }
+}
+@media(prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important; transition:none!important; } }
+
     </style>
 </head>
 <body>
@@ -486,8 +611,9 @@
     <div id="login-page">
         <div class="login-box">
             <!-- 직접 호스팅하신 이미지를 여기에 넣으세요 -->
-            <img class="hero-image" src="https://raw.githubusercontent.com/hey24blanket/camping-menu/refs/heads/main/hero_00000.png" alt="캠핑 이미지" />
-            
+            <img class="hero-image" src="picnic-october.webp" alt="가을 나무 아래 텐트와 피크닉 음식이 놓인 일러스트" width="900" height="600" />
+
+            <p class="event-date">OCTOBER 3</p>
             <h2 class="login-title">몬테비얀코 쳐묵 기행</h2>
 
             <div class="camp-info">
@@ -502,51 +628,66 @@
                     <span>퇴실 12시</span>
                 </div>
             </div>
-            
-            <input type="text" id="userid" placeholder="아이디 (띄어쓰기 없는 한글)" />
-            <p class="hint">DB 확인 후 없으면 자동 가입됩니다.</p>
+
+            <input type="text" id="userid" aria-label="아이디" maxlength="16" autocomplete="username" placeholder="아이디 (띄어쓰기 없는 한글)" />
+            <p class="hint">처음 온 이름은 자동으로 등록돼요.</p>
             <div class="input-icon-wrapper">
-                <input type="password" id="userpw" placeholder="비밀번호 (숫자 3자리)" inputmode="numeric" maxlength="3" />
+                <input type="password" id="userpw" placeholder="비밀번호 (숫자 3자리)" inputmode="numeric" maxlength="64" aria-label="비밀번호" autocomplete="current-password" />
                 <button type="button" id="toggle-pw-btn" aria-label="비밀번호 보기">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
                     </svg>
                 </button>
             </div>
-            <button id="login-btn">들어가기</button>
+            <button id="login-btn">함께 고르러 가기</button>
+            <button type="button" id="admin-login-toggle" class="text-button">관리자 로그인</button>
         </div>
     </div>
 
     <div id="main-page">
         <div id="top-bar">
-            <div>메뉴: <span id="menu-count">0</span></div>
-            <button id="modal-btn">리스트</button>
+            <div class="brand"><span class="small-date">October 3</span><strong>쳐묵 기행</strong></div>
+            <div class="top-actions"><span id="user-badge"></span><button id="modal-btn">메뉴 <span id="menu-count">0</span></button><button id="logout-btn" aria-label="로그아웃">나가기</button></div>
         </div>
-        <div id="arena"></div>
+        <div class="workspace">
+            <aside id="community-panel" aria-label="전체 채팅">
+                <div class="panel-heading"><div><span class="eyebrow">AROUND THE TABLE</span><h2>우리들의 이야기</h2></div><span class="chat-symbol" aria-hidden="true">↗</span></div>
+                <div class="chat-tabs" role="tablist" aria-label="대화방"><button id="general-tab" role="tab" aria-selected="true">전체 채팅</button><button id="menu-tab" role="tab" aria-selected="false" hidden>메뉴 채팅</button></div>
+                <div id="conversation-title">다 같이 나누는 캠핑 이야기</div>
+                <div id="shared-chat-list" class="chat-list" role="log" aria-label="채팅 메시지"></div>
+                <div id="shared-composer"></div>
+            </aside>
+            <section class="arena-panel" aria-label="추천 메뉴">
+                <div class="arena-heading"><div><span class="eyebrow">WHAT'S ON THE MENU?</span><h2>먹고 싶은 걸 쏘아봐요.</h2></div><p>공을 누르면 대화 · 하트는 좋아요</p></div>
+                <div id="arena"><div id="arena-empty">아직 메뉴가 없어요.<br>첫 번째 메뉴를 쏘아보세요!</div></div>
+            </section>
+        </div>
         <div id="bottom-bar">
-            <input type="text" id="menu-input" placeholder="뭘 드실까요?" />
-            <button id="throw-btn">쳐묵</button>
-            <button id="my-menu-btn">-</button>
+            <input type="text" id="menu-input" placeholder="먹고 싶은 메뉴를 적어주세요" maxlength="40" aria-label="추천할 메뉴" />
+            <button id="throw-btn">메뉴 쏘기 ↗</button>
+            <button id="my-menu-btn" aria-label="내 메뉴 삭제 모드" title="내 메뉴 삭제">삭제</button>
         </div>
     </div>
 
     <div id="modal">
         <div class="modal-header">
             <span>리스트</span>
-            <span style="cursor:pointer; padding:0 10px;" id="modal-close-btn">X</span>
+            <button id="modal-close-btn" aria-label="메뉴 목록 닫기">닫기</button>
         </div>
         <div class="modal-content" id="menu-list"></div>
     </div>
-    <div id="toast"></div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <dialog id="photo-viewer"><button type="button" id="photo-close">닫기</button><img alt="채팅 사진 확대"></dialog>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     // onValue를 추가로 import 합니다.
-    import { getDatabase, ref, get, set, child, push, remove, onChildAdded, onChildRemoved, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getDatabase, ref, get, set, child, push, remove, onChildAdded, onChildRemoved, onValue, query, limitToLast, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyC6n0Pw2GPg4MO6oUaWrBd7PT-GM-ufAw8",
+        databaseURL: "https://monte-bianco-773a6-default-rtdb.firebaseio.com",
         authDomain: "monte-bianco-773a6.firebaseapp.com",
         projectId: "monte-bianco-773a6",
         storageBucket: "monte-bianco-773a6.firebasestorage.app",
@@ -559,6 +700,11 @@
     const db = getDatabase(app);
 
     let currentUser = null;
+    let isAdmin = false;
+    let adminLoginMode = false;
+    let roomId = null;
+    let roomUnsubscribe = null;
+    let roomGeneration = 0;
     let menus = [];
     let isPaused = false;
     let activeSuggestionBallId = null;
@@ -616,10 +762,11 @@
             const savedId = localStorage.getItem(SAVED_LOGIN_ID_KEY);
             const savedPw = localStorage.getItem(SAVED_LOGIN_PW_KEY);
 
-            if (!savedId || !savedPw) return;
+            if (!savedId) return;
 
             idInput.value = savedId;
-            pwInput.value = savedPw;
+            pwInput.value = '';
+            localStorage.removeItem(SAVED_LOGIN_PW_KEY);
 
             // 키보드가 자동으로 열리지 않도록 입력창 대신 버튼에 초점을 둡니다.
             requestAnimationFrame(() => loginBtn.focus({ preventScroll: true }));
@@ -633,7 +780,7 @@
     function saveLogin(id, password) {
         try {
             localStorage.setItem(SAVED_LOGIN_ID_KEY, id);
-            localStorage.setItem(SAVED_LOGIN_PW_KEY, password);
+            localStorage.removeItem(SAVED_LOGIN_PW_KEY);
         } catch (error) {
             console.warn('로그인 정보를 이 브라우저에 저장하지 못했습니다.', error);
         }
@@ -725,12 +872,12 @@
         const totalBaseArea = menus.reduce((acc, m) => acc + Math.PI * Math.pow(m.baseRadius, 2), 0);
         const scaleFactor = Math.sqrt(Math.min(1, (arenaWidth * arenaHeight * 0.34) / totalBaseArea));
         menus.forEach(m => {
-            const targetRadius = Math.max(22, m.baseRadius * scaleFactor);
+            const targetRadius = Math.max(30, m.baseRadius * scaleFactor);
             const ratio = targetRadius / m.radius;
             Body.scale(m.body, ratio, ratio);
             m.radius = targetRadius;
             const el = document.getElementById(m.id);
-            if (el) { el.style.width = el.style.height = (m.radius * 2) + 'px'; el.style.fontSize = Math.max(10, 14 * scaleFactor) + 'px'; }
+            if (el) { el.style.width = el.style.height = (m.radius * 2) + 'px'; el.style.fontSize = Math.max(12, 14 * scaleFactor) + 'px'; }
         });
     }
 
@@ -765,13 +912,10 @@
             });
         });
 
-        if (activeSuggestionBallId && activeChatWindow) {
-            requestAnimationFrame(() => positionChatWindow(activeSuggestionBallId, activeChatWindow));
-        }
         updateListLayout();
     });
 
-    pwInput.addEventListener('input', () => pwInput.value = pwInput.value.replace(/\D/g, '').slice(0, 3));
+    pwInput.addEventListener('input', () => { if (!adminLoginMode) pwInput.value = pwInput.value.replace(/\D/g, '').slice(0, 3); });
     pwInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -815,67 +959,8 @@
             ${commentBadge}
             <div class="ball-user">${escapeHTML(m.user)}</div>
             <div class="ball-text">${escapeHTML(m.text)}</div>
+            <button type="button" class="ball-like ${m.likes?.[currentUser] ? 'liked' : ''}" data-like="${escapeHTML(m.id)}" aria-label="${escapeHTML(m.text)} 좋아요" aria-pressed="${!!m.likes?.[currentUser]}">${m.likes?.[currentUser] ? '♥' : '♡'} <span>${Object.keys(m.likes || {}).length}</span></button>
         `;
-    }
-
-    // 예전 DB의 문자열 댓글과, 혹시 이후 객체 형태로 저장된 댓글을 모두 읽습니다.
-    function normalizeComments(rawComments) {
-        if (!rawComments || typeof rawComments !== 'object') return [];
-
-        return Object.entries(rawComments)
-            .map(([id, value]) => {
-                if (typeof value === 'string' || typeof value === 'number') {
-                    return { id, text: String(value), user: '', timestamp: 0 };
-                }
-
-                if (value && typeof value === 'object') {
-                    const text = value.text ?? value.comment ?? value.message ?? '';
-                    return {
-                        id,
-                        text: String(text),
-                        user: String(value.user ?? ''),
-                        timestamp: Number(value.timestamp) || 0
-                    };
-                }
-
-                return null;
-            })
-            .filter(comment => comment && comment.text.trim() !== '');
-    }
-
-    function renderChatComments(ball) {
-        if (!ball || activeSuggestionBallId !== ball.id || !activeChatWindow) return;
-
-        const listEl = activeChatWindow.querySelector('.chat-list');
-        if (!listEl) return;
-        listEl.innerHTML = '';
-
-        if (!ball.commentsLoaded) {
-            const loading = document.createElement('div');
-            loading.className = 'chat-empty';
-            loading.textContent = '댓글을 불러오는 중...';
-            listEl.appendChild(loading);
-            return;
-        }
-
-        if (ball.comments.length === 0) {
-            const empty = document.createElement('div');
-            empty.className = 'chat-empty';
-            empty.textContent = '아직 댓글이 없습니다.';
-            listEl.appendChild(empty);
-            return;
-        }
-
-        ball.comments.forEach(comment => {
-            const bubble = document.createElement('div');
-            bubble.className = 'chat-bubble';
-            bubble.textContent = comment.text;
-            listEl.appendChild(bubble);
-        });
-
-        requestAnimationFrame(() => {
-            listEl.scrollTop = listEl.scrollHeight;
-        });
     }
 
     function clearBallFocusStyles() {
@@ -895,57 +980,77 @@
         });
     }
 
+    // This organizer mode extends the legacy app UI; Firebase Rules remain the security boundary.
+    const ADMIN_ID = "캠핑지기";
+    const ADMIN_SALT = "57afe525d7f8de80886a2a5f5120e663";
+    const ADMIN_VERIFIER = "b3ce3259c8f0b471c690e959ed8d23904e774e1edbdee449056e03c20bc15081";
+    async function verifyOrganizer(password) {
+        const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+        const bits = await crypto.subtle.deriveBits({name:'PBKDF2', salt:new TextEncoder().encode(ADMIN_SALT), iterations:210000, hash:'SHA-256'}, key, 256);
+        return Array.from(new Uint8Array(bits), n => n.toString(16).padStart(2,'0')).join('') === ADMIN_VERIFIER;
+    }
     async function handleLogin() {
+        if (loginBtn.disabled) return;
         const idVal = idInput.value.trim(), pwVal = pwInput.value.trim();
-        if (!/^[가-힣]+$/.test(idVal)) { showToast("아이디는 한글만 가능합니다."); return; }
-        if (!/^\d{3}$/.test(pwVal)) { showToast("비밀번호는 숫자 3자리입니다."); return; }
+        if (!/^[가-힣]{1,16}$/.test(idVal)) return showToast('아이디는 한글 1~16자로 입력해주세요.');
+        loginBtn.disabled = true;
         try {
-            const snapshot = await get(child(ref(db), `users/${idVal}`));
-            let toastMessage = '';
-
-            if (snapshot.exists()) {
-                if (snapshot.val().password !== pwVal) { 
-                    showToast("비밀번호가 틀렸습니다."); 
-                    return; 
-                }
-                toastMessage = "다시 로그인 함.";
+            isAdmin = false;
+            if (adminLoginMode) {
+                if (idVal !== ADMIN_ID || !await verifyOrganizer(pwVal)) return showToast('관리자 아이디 또는 비밀번호를 확인해주세요.');
+                isAdmin = true;
+                // Ensure database connectivity before opening the app.
+                await get(query(ref(db, 'menus'), limitToLast(1)));
             } else {
-                await set(ref(db, `users/${idVal}`), { password: pwVal });
-                toastMessage = "새로운 사람.";
+                if (idVal === ADMIN_ID) return showToast('관리자 로그인을 이용해주세요.');
+                if (!/^\d{3}$/.test(pwVal)) return showToast('비밀번호는 숫자 3자리입니다.');
+                const userRef = ref(db, `users/${idVal}`);
+                const snapshot = await get(userRef);
+                if (snapshot.exists()) {
+                    if (snapshot.val().password !== pwVal) return showToast('비밀번호가 맞지 않아요.');
+                } else {
+                    const result = await runTransaction(userRef, existing => existing || {password:pwVal});
+                    if (result.snapshot.val()?.password !== pwVal) return showToast('사용 중인 이름입니다. 다른 이름을 입력해주세요.');
+                }
+                saveLogin(idVal, pwVal);
             }
-
-            // 가입 또는 기존 사용자 확인이 끝난 뒤에만 이 기기에 저장합니다.
-            saveLogin(idVal, pwVal);
-
             currentUser = idVal;
+            pwInput.value = '';
+            document.getElementById('user-badge').textContent = isAdmin ? '관리자' : currentUser;
+            myMenuBtn.textContent = isAdmin ? '관리' : '삭제';
+            myMenuBtn.setAttribute('aria-label', isAdmin ? '모든 메뉴 삭제 모드' : '내 메뉴 삭제 모드');
             document.getElementById('login-page').style.display = 'none';
             document.getElementById('main-page').style.display = 'flex';
             if (!engine) { initPhysics(); initFirebaseListeners(); }
-            
-            showToast(toastMessage, 1800);
-        } catch (e) { 
-            showToast("DB 연결 오류가 발생했습니다."); 
-        }
+            selectRoom(null);
+            showToast(isAdmin ? '관리자 모드로 들어왔어요.' : `${currentUser}님, 반가워요!`);
+        } catch (error) { showToast('연결하지 못했어요. 잠시 후 다시 시도해주세요.'); }
+        finally { loginBtn.disabled = false; }
     }
 
-    function throwMenu() {
+    async function throwMenu() {
         const text = menuInput.value.trim();
-        if (!text) return;
-        push(ref(db, 'menus'), { text: text, user: currentUser, timestamp: Date.now() });
-        menuInput.value = '';
+        if (!text || !currentUser || throwBtn.disabled) return;
+        if (text.length > 40) return showToast('메뉴 이름은 40자까지 적어주세요.');
+        throwBtn.disabled = true;
+        try {
+            await push(ref(db, 'menus'), { text, user:currentUser, timestamp:Date.now() });
+            menuInput.value = '';
+        } catch { showToast('메뉴를 올리지 못했어요. 다시 시도해주세요.'); }
+        finally { throwBtn.disabled = false; }
     }
 
     function initFirebaseListeners() {
         onChildAdded(ref(db, 'menus'), (data) => {
             const val = data.val(), ballId = data.key;
             const radius = 45 + (Math.random() * 8);
-            
-            const newMenu = { 
-                id: ballId, 
-                user: val.user, 
-                text: val.text, 
-                radius: radius, 
-                baseRadius: radius, 
+
+            const newMenu = {
+                id: ballId,
+                user: val.user,
+                text: val.text,
+                radius: radius,
+                baseRadius: radius,
                 launchStart: null,
                 commentCount: 0,
                 comments: [],
@@ -955,33 +1060,38 @@
             const ballEl = document.createElement('div');
             ballEl.id = ballId;
             ballEl.className = 'menu-ball';
+            ballEl.tabIndex = 0;
+            ballEl.setAttribute('role', 'group');
+            ballEl.setAttribute('aria-label', `${val.text}, ${val.user} 추천. Enter로 대화 열기`);
+            ballEl.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target === ballEl) { e.preventDefault(); handleBallClick(ballId, val.text, val.user); } });
             ballEl.innerHTML = getBallInnerHTML(newMenu);
             ballEl.style.width = ballEl.style.height = (radius * 2) + 'px';
             ballEl.style.backgroundColor = pastelColors[menus.length % pastelColors.length];
-            
-            ballEl.addEventListener('click', (e) => { 
-                e.stopPropagation(); 
-                handleBallClick(ballId, val.text, val.user); 
+
+            ballEl.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (e.target.closest('[data-like]')) { toggleLike(ballId); return; }
+                handleBallClick(ballId, val.text, val.user);
             });
-            
+
             arenaEl.appendChild(ballEl);
             const spawn = findSpawnPosition(radius);
             const body = Bodies.circle(spawn.x, spawn.y, radius, { restitution: 1, friction: 0, frictionStatic: 0, frictionAir: 0, density: 0.02, slop: 0 });
             Composite.add(engine.world, body);
-            
+
             newMenu.body = body;
             menus.push(newMenu);
-            
+
             recalculateSizes(); resolveOverlaps(); launchBall(newMenu); updateUI();
             if (activeSuggestionBallId) applyChatFocus(activeSuggestionBallId);
 
             // 실시간 댓글 카운터 + 댓글 내용 리스너
             const commentsRef = ref(db, `menus/${ballId}/comments`);
-            onValue(commentsRef, (snapshot) => {
+            newMenu.stopComments = onValue(query(commentsRef, limitToLast(100)), (snapshot) => {
                 const m = menus.find(menu => menu.id === ballId);
                 if (!m) return;
 
-                m.comments = normalizeComments(snapshot.val());
+                m.comments = normalizeMessages(snapshot.val());
                 m.commentCount = m.comments.length;
                 m.commentsLoaded = true;
 
@@ -992,14 +1102,23 @@
                 }
 
                 // 이미 열려 있는 댓글창에도 즉시 반영합니다.
-                renderChatComments(m);
-            });
+
+            }, () => showToast('메뉴 대화를 불러오지 못했어요.'));
+            newMenu.stopLikes = onValue(ref(db, `menus/${ballId}/likes`), snap => {
+                newMenu.likes = snap.val() || {};
+                const el = document.getElementById(ballId);
+                if (el && !el.querySelector('.delete-overlay')) el.innerHTML = getBallInnerHTML(newMenu);
+                updateUI();
+            }, () => showToast('좋아요를 불러오지 못했어요.'));
         });
-        
+
         onChildRemoved(ref(db, 'menus'), (data) => {
             const index = menus.findIndex(m => m.id === data.key);
             if (index > -1) {
                 if (activeSuggestionBallId === data.key) closeSuggestionMode();
+                menus[index].stopComments?.();
+                menus[index].stopLikes?.();
+                if (roomId === data.key) selectRoom(null);
                 Composite.remove(engine.world, menus[index].body);
                 document.getElementById(data.key)?.remove();
                 menus.splice(index, 1);
@@ -1021,7 +1140,7 @@
             if (!el) return;
 
             if (isPaused) {
-                if (m.user === currentUser) {
+                if (isAdmin || m.user === currentUser) {
                     el.classList.add('highlight');
                 } else {
                     el.classList.add('dimmed', 'interaction-disabled');
@@ -1035,7 +1154,7 @@
     function handleBallClick(ballId, text, user) {
         if (isPaused) {
             // 삭제 모드일 때
-            if (user !== currentUser) return;
+            if (!isAdmin && user !== currentUser) return;
             const ballEl = document.getElementById(ballId);
             if (!ballEl || ballEl.querySelector('.delete-overlay')) return;
             menus.forEach(m => {
@@ -1043,11 +1162,11 @@
                 if (otherEl && otherEl.querySelector('.delete-overlay')) otherEl.innerHTML = getBallInnerHTML(m);
             });
             ballEl.innerHTML = `<div class="delete-overlay">x</div>`;
-            ballEl.querySelector('.delete-overlay').onclick = (e) => { e.stopPropagation(); remove(ref(db, `menus/${ballId}`)); };
+            ballEl.querySelector('.delete-overlay').onclick = async (e) => { e.stopPropagation(); await deleteMenu(ballId); };
         } else {
             // 댓글 모드 활성화
-            if (activeSuggestionBallId === ballId) return; 
-            if (activeSuggestionBallId) closeSuggestionMode(); 
+            if (activeSuggestionBallId === ballId) return;
+            if (activeSuggestionBallId) closeSuggestionMode();
             openSuggestionMode(ballId);
         }
     }
@@ -1055,10 +1174,10 @@
     document.addEventListener('click', (e) => {
         // 채팅창 바깥 빈공간 클릭 시 닫기
         if (activeSuggestionBallId) {
-            const clickedChat = e.target.closest('.chat-window');
-            if (clickedChat) return; 
+            const clickedChat = e.target.closest('#community-panel, #modal');
+            if (clickedChat) return;
             closeSuggestionMode();
-            return; 
+            return;
         }
 
         // 삭제 모드 취소 로직
@@ -1076,176 +1195,39 @@
         });
     });
 
-    // 댓글창은 너무 좁아지지 않도록 최소 가로 폭을 유지합니다.
-    // 공이 가운데에 있어 양옆 공간이 부족한 경우에는 댓글창을 아레나 오른쪽에 맞춰 배치합니다.
-    function getBestChatPlacement(ball) {
-        const margin = 4;
-        const visualRadius = ball.radius * 1.08;
-        const diagonal = visualRadius / Math.SQRT2;
-        const bx = ball.body.position.x;
-        const by = ball.body.position.y;
-
-        const availableArenaWidth = Math.max(1, arenaWidth - margin * 2);
-        const availableArenaHeight = Math.max(1, arenaHeight - margin * 2);
-
-        // 전송 버튼이 항상 가로로 온전히 보이도록 댓글창의 폭을 줄이지 않습니다.
-        const preferredWidth = clamp(arenaWidth * 0.58, 220, 340);
-        const width = Math.min(preferredWidth, availableArenaWidth);
-
-        const preferredHeight = clamp(arenaHeight * 0.58, 180, 300);
-        const minimumHeight = Math.min(130, availableArenaHeight);
-        const height = clamp(preferredHeight, minimumHeight, availableArenaHeight);
-
-        const candidates = [
-            {
-                horizontal: 'right', vertical: 'down', attachClass: 'attach-top-left',
-                anchorX: bx + diagonal, anchorY: by + diagonal,
-                horizontalPriority: 1
-            },
-            {
-                horizontal: 'left', vertical: 'down', attachClass: 'attach-top-right',
-                anchorX: bx - diagonal, anchorY: by + diagonal,
-                horizontalPriority: 0
-            },
-            {
-                horizontal: 'right', vertical: 'up', attachClass: 'attach-bottom-left',
-                anchorX: bx + diagonal, anchorY: by - diagonal,
-                horizontalPriority: 1
-            },
-            {
-                horizontal: 'left', vertical: 'up', attachClass: 'attach-bottom-right',
-                anchorX: bx - diagonal, anchorY: by - diagonal,
-                horizontalPriority: 0
-            }
-        ].map(candidate => {
-            const idealLeft = candidate.horizontal === 'right'
-                ? candidate.anchorX
-                : candidate.anchorX - width;
-            const idealTop = candidate.vertical === 'down'
-                ? candidate.anchorY
-                : candidate.anchorY - height;
-
-            const left = clamp(idealLeft, margin, arenaWidth - width - margin);
-            const top = clamp(idealTop, margin, arenaHeight - height - margin);
-
-            // 이상적인 연결 위치에서 얼마나 이동했는지 계산합니다.
-            const horizontalShift = Math.abs(left - idealLeft);
-            const verticalShift = Math.abs(top - idealTop);
-            const totalShift = horizontalShift + verticalShift;
-
-            // 이동량이 적은 방향을 우선합니다. 같은 조건이면 오른쪽 배치를 우선합니다.
-            const score = totalShift * 100 - candidate.horizontalPriority;
-
-            return {
-                ...candidate,
-                width,
-                height,
-                left,
-                top,
-                score
-            };
-        });
-
-        return candidates.sort((a, b) => a.score - b.score)[0];
-    }
-
-    function positionChatWindow(ballId, chatWin) {
-        const ball = menus.find(m => m.id === ballId);
-        if (!ball || !chatWin) return;
-
-        const placement = getBestChatPlacement(ball);
-
-        chatWin.classList.remove(
-            'attach-top-left',
-            'attach-top-right',
-            'attach-bottom-left',
-            'attach-bottom-right'
-        );
-        chatWin.classList.add(placement.attachClass);
-        chatWin.style.width = `${placement.width}px`;
-        chatWin.style.height = `${placement.height}px`;
-        chatWin.style.left = `${placement.left}px`;
-        chatWin.style.top = `${placement.top}px`;
-    }
-
     function openSuggestionMode(ballId) {
-        const ball = menus.find(m => m.id === ballId);
-        if (!ball) return;
-
+        if (!menus.some(m => m.id === ballId)) return;
         activeSuggestionBallId = ballId;
         applyChatFocus(ballId);
-
-        const chatWin = document.createElement('div');
-        chatWin.className = 'chat-window';
-        chatWin.innerHTML = `
-            <div class="chat-list" id="chat-list-${ballId}"></div>
-            <div class="chat-input-row">
-                <input type="text" class="chat-input" placeholder="댓글 입력..." />
-                <button type="button" class="chat-send-btn">전송</button>
-            </div>
-        `;
-
-        arenaEl.appendChild(chatWin);
-        activeChatWindow = chatWin;
-        positionChatWindow(ballId, chatWin);
-        renderChatComments(ball);
-
-        const input = chatWin.querySelector('.chat-input');
-        const sendBtn = chatWin.querySelector('.chat-send-btn');
-
-        const sendComment = async () => {
-            const text = input.value.trim();
-            if (!text) return;
-
-            sendBtn.disabled = true;
-            try {
-                // 기존 DB 구조와 호환되도록 댓글은 문자열로 저장합니다.
-                await push(ref(db, `menus/${ballId}/comments`), text);
-                input.value = '';
-                input.focus();
-            } catch (error) {
-                showToast('댓글 전송에 실패했습니다.');
-            } finally {
-                sendBtn.disabled = false;
-            }
-        };
-
-        sendBtn.addEventListener('click', sendComment);
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.isComposing) {
-                e.preventDefault();
-                sendComment();
-            }
-        });
+        selectRoom(ballId);
+        document.getElementById('community-panel').classList.add('mobile-open');
     }
-
     function closeSuggestionMode() {
-        if (activeChatWindow) activeChatWindow.remove();
-        activeChatWindow = null;
         activeSuggestionBallId = null;
+        activeChatWindow = null;
         if (!isPaused) clearBallFocusStyles();
     }
-
-    function updateListLayout() {
-        const listContainer = document.getElementById('menu-list');
-        if (!listContainer || menus.length === 0) return;
-        const rows = Math.max(1, Math.floor((listContainer.clientHeight || 300) / 52));
-        const cols = Math.max(1, Math.ceil(menus.length / rows));
-        listContainer.style.gridTemplateRows = `repeat(${rows}, minmax(44px, 1fr))`;
-        listContainer.style.gridTemplateColumns = `repeat(${cols}, minmax(120px, 1fr))`;
-    }
-
+    function updateListLayout() {}
     function updateUI() {
-        document.getElementById('menu-count').innerText = menus.length;
-        const listContainer = document.getElementById('menu-list');
-        listContainer.innerHTML = menus.length === 0 ? '<div class="empty-msg">아직 쳐묵할 메뉴가 없습니다.</div>' : '';
-        menus.forEach(m => {
-            const div = document.createElement('div');
-            div.className = 'list-item';
-            div.innerText = m.text;
-            listContainer.appendChild(div);
+        document.getElementById('menu-count').textContent = menus.length;
+        document.getElementById('arena-empty').hidden = menus.length > 0;
+        const list = document.getElementById('menu-list');
+        list.innerHTML = menus.length ? '' : '<div class="empty-msg">첫 번째 메뉴를 쏘아보세요!</div>';
+        [...menus].sort((a,b) => Object.keys(b.likes || {}).length - Object.keys(a.likes || {}).length).forEach(m => {
+            const row = document.createElement('div'); row.className = 'list-item';
+            const open = document.createElement('button'); open.className = 'menu-list-name';
+            open.innerHTML = `<strong>${escapeHTML(m.text)}</strong><small>${escapeHTML(m.user)}</small>`;
+            open.onclick = () => { document.getElementById('modal').style.display = 'none'; openSuggestionMode(m.id); };
+            const like = document.createElement('button'); like.className = 'list-like';
+            like.textContent = `${m.likes?.[currentUser] ? '♥' : '♡'} ${Object.keys(m.likes || {}).length}`;
+            like.setAttribute('aria-label', `${m.text} 좋아요`); like.setAttribute('aria-pressed', !!m.likes?.[currentUser]);
+            like.onclick = () => toggleLike(m.id);
+            row.append(open,like);
+            if (isAdmin || m.user === currentUser) {
+                const del = document.createElement('button'); del.className = 'delete-button'; del.textContent = '삭제'; del.onclick = () => deleteMenu(m.id); row.append(del);
+            }
+            list.append(row);
         });
-        requestAnimationFrame(updateListLayout);
     }
 
     function toggleModal() {
@@ -1253,6 +1235,133 @@
         modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
         if (modal.style.display === 'flex') requestAnimationFrame(updateListLayout);
     }
+    const pendingLikes = new Set();
+    async function toggleLike(id) {
+        if (!currentUser || pendingLikes.has(id)) return;
+        const menu = menus.find(m => m.id === id); if (!menu) return;
+        pendingLikes.add(id);
+        try {
+            // Transaction on the menu avoids reviving a concurrently deleted menu.
+            await runTransaction(ref(db, `menus/${id}`), value => {
+                if (!value) return;
+                value.likes = value.likes || {};
+                if (value.likes[currentUser]) delete value.likes[currentUser];
+                else value.likes[currentUser] = true;
+                return value;
+            });
+        } catch { showToast('좋아요를 저장하지 못했어요.'); }
+        finally { pendingLikes.delete(id); }
+    }
+    async function deleteMenu(id) {
+        const menu = menus.find(m => m.id === id);
+        if (!menu || (!isAdmin && menu.user !== currentUser)) return;
+        if (!confirm(`“${menu.text}” 메뉴와 여기에 달린 대화를 삭제할까요?`)) return;
+        try { await remove(ref(db, `menus/${id}`)); showToast('메뉴를 삭제했어요.'); }
+        catch { showToast('삭제하지 못했어요. 다시 시도해주세요.'); }
+    }
+    function validPhoto(value) {
+        return typeof value === 'string' && value.length <= 350000 && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(value);
+    }
+    function normalizeMessages(raw) {
+        return Object.entries(raw || {}).map(([id,v]) => {
+            if (typeof v === 'string' || typeof v === 'number') return {id,text:String(v),user:'',timestamp:0};
+            if (!v || typeof v !== 'object') return null;
+            return {id,text:String(v.text ?? v.comment ?? v.message ?? ''),user:String(v.user || ''),timestamp:Number(v.timestamp)||0,image:validPhoto(v.image) ? v.image : null};
+        }).filter(v => v && (v.text.trim() || v.image)).sort((a,b) => a.timestamp-b.timestamp || a.id.localeCompare(b.id));
+    }
+    function renderMessages(messages, path) {
+        const list = document.getElementById('shared-chat-list');
+        const followBottom = list.scrollHeight-list.scrollTop-list.clientHeight < 90;
+        const previousTop = list.scrollTop;
+        list.replaceChildren();
+        if (!messages.length) { const empty=document.createElement('div'); empty.className='chat-empty'; empty.textContent=roomId ? '이 메뉴, 어떻게 먹으면 좋을까요?\n첫 이야기를 남겨보세요.' : '준비물부터 먹고 싶은 음식까지.\n사진과 이야기를 함께 나눠요.'; list.append(empty); }
+        messages.forEach(msg => {
+            const bubble=document.createElement('div'); bubble.className=`chat-bubble${msg.user === currentUser ? ' mine' : ''}`;
+            const meta=document.createElement('div'); meta.className='message-meta';
+            const author=document.createElement('strong'); author.textContent=msg.user || '이전 대화'; meta.append(author);
+            if(msg.timestamp) { const time=document.createElement('time'); time.textContent=new Intl.DateTimeFormat('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(msg.timestamp)); meta.append(time); }
+            if(isAdmin || (msg.user && msg.user === currentUser)) { const del=document.createElement('button'); del.className='message-delete'; del.textContent='삭제'; del.setAttribute('aria-label','이 메시지 삭제'); del.onclick=async()=>{if(!confirm('이 메시지를 삭제할까요?'))return;try{await remove(ref(db,`${path}/${msg.id}`));}catch{showToast('메시지를 삭제하지 못했어요.');}};meta.append(del); }
+            bubble.append(meta);
+            if(msg.text) {const text=document.createElement('div');text.className='message-text';text.textContent=msg.text;bubble.append(text);}
+            if(msg.image) { const button=document.createElement('button');button.className='message-photo';button.setAttribute('aria-label','사진 크게 보기');const img=document.createElement('img');img.src=msg.image;img.alt=`${msg.user || '참여자'}님이 올린 사진`;img.loading='lazy';img.onload=()=>{if(followBottom)list.scrollTop=list.scrollHeight;};button.append(img);button.onclick=()=>{const d=document.getElementById('photo-viewer');d.querySelector('img').src=msg.image;d.showModal();};bubble.append(button); }
+            list.append(bubble);
+        });
+        requestAnimationFrame(()=>{list.scrollTop=followBottom ? list.scrollHeight : previousTop;});
+    }
+    function selectRoom(id) {
+        roomUnsubscribe?.(); roomUnsubscribe=null;
+        roomId=id; const generation=++roomGeneration;
+        const menu=menus.find(m=>m.id===id);
+        const path=id ? `menus/${id}/comments` : 'generalChat';
+        const menuTab=document.getElementById('menu-tab');menuTab.hidden=!id;menuTab.textContent=menu ? `메뉴 · ${menu.text}` : '메뉴 채팅';
+        menuTab.setAttribute('aria-selected',!!id);document.getElementById('general-tab').setAttribute('aria-selected',!id);
+        document.getElementById('conversation-title').textContent=menu ? `${menu.user}님 추천 · ${menu.text}` : '다 같이 나누는 캠핑 이야기';
+        const list=document.getElementById('shared-chat-list');list.innerHTML='<div class="chat-empty">대화를 불러오는 중…</div>';
+        mountComposer(path,id);
+        roomUnsubscribe=onValue(query(ref(db,path),limitToLast(100)),snap=>{if(generation===roomGeneration)renderMessages(normalizeMessages(snap.val()),path);},()=>{if(generation===roomGeneration)list.innerHTML='<div class="chat-empty">연결하지 못했어요. 대화방을 다시 선택해주세요.</div>';});
+    }
+    async function compressPhoto(file) {
+        if(file.size>20*1024*1024)throw new Error('사진은 20MB 이하로 선택해주세요.');
+        if(!file.type.startsWith('image/'))throw new Error('사진 파일을 선택해주세요.');
+        const url=URL.createObjectURL(file);
+        try {
+            const img=new Image();img.src=url;
+            try{await img.decode();}catch{throw new Error('이 사진 형식은 읽을 수 없어요. JPG 또는 PNG로 선택해주세요.');}
+            let edge=1000;
+            for(let attempt=0;attempt<5;attempt++) {
+                const scale=Math.min(1,edge/Math.max(img.naturalWidth,img.naturalHeight));
+                const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+                const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);
+                const data=canvas.toDataURL('image/jpeg',.75-attempt*.08);
+                if(data.length<=300000)return data;
+                edge*=.8;
+            }
+            throw new Error('사진 용량을 줄이지 못했어요. 다른 사진을 선택해주세요.');
+        } finally { URL.revokeObjectURL(url); }
+    }
+    function mountComposer(path,targetRoom) {
+        const host=document.getElementById('shared-composer');host.innerHTML=`<div class="composer"><div class="attachment-preview" hidden></div><div class="composer-row"><input type="file" accept="image/*" hidden><button type="button" class="attach" aria-label="사진 첨부">사진</button><textarea rows="1" maxlength="2000" aria-label="메시지" placeholder="이야기를 남겨주세요"></textarea><button type="button" class="send">전송</button></div><p class="composer-note">사진은 자동으로 압축돼요 · 최근 대화 100개</p></div>`;
+        const picker=host.querySelector('input'),text=host.querySelector('textarea'),send=host.querySelector('.send'),attach=host.querySelector('.attach'),preview=host.querySelector('.attachment-preview');
+        let imageData=null,uploading=false,preparing=false;
+        attach.onclick=()=>picker.click();
+        picker.onchange=async()=>{
+            const file=picker.files[0];if(!file)return;preparing=true;send.disabled=true;attach.disabled=true;
+            try{imageData=await compressPhoto(file);preview.replaceChildren();const img=document.createElement('img');img.src=imageData;img.alt='전송할 사진 미리보기';const cancel=document.createElement('button');cancel.textContent='첨부 취소';cancel.onclick=()=>{imageData=null;preview.hidden=true;picker.value='';};preview.append(img,cancel);preview.hidden=false;}
+            catch(e){showToast(e.message);picker.value='';}
+            finally{preparing=false;send.disabled=false;attach.disabled=false;}
+        };
+        async function submit(){
+            const content=text.value.trim();if(uploading||preparing||(!content&&!imageData))return;
+            if(!currentUser)return;uploading=true;send.disabled=true;attach.disabled=true;text.disabled=true;
+            const payload={text:content,user:currentUser,timestamp:Date.now()};if(imageData)payload.image=imageData;
+            try{
+                if(targetRoom){
+                    const messageId=push(ref(db,path)).key;
+                    const result=await runTransaction(ref(db,`menus/${targetRoom}`),value=>{if(!value)return;value.comments=value.comments||{};value.comments[messageId]=payload;return value;});
+                    if(!result.committed)throw new Error('이 메뉴는 삭제됐어요. 전체 채팅을 이용해주세요.');
+                } else {await push(ref(db,path),payload);}
+                text.value='';imageData=null;preview.hidden=true;picker.value='';
+                const list=document.getElementById('shared-chat-list');list.scrollTop=list.scrollHeight;
+            }catch(e){showToast(e.message?.includes('삭제') ? e.message : '전송하지 못했어요. 내용을 확인하고 다시 보내주세요.');}
+            finally{uploading=false;send.disabled=false;attach.disabled=false;text.disabled=false;}
+        }
+        send.onclick=submit;
+        text.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&matchMedia('(min-width:701px)').matches){e.preventDefault();submit();}};
+    }
+    document.getElementById('general-tab').onclick=()=>{closeSuggestionMode();selectRoom(null);};
+    document.getElementById('menu-tab').onclick=()=>{if(roomId)selectRoom(roomId);};
+    document.getElementById('logout-btn').onclick=()=>location.reload();
+    document.getElementById('photo-close').onclick=()=>document.getElementById('photo-viewer').close();
+    document.getElementById('admin-login-toggle').onclick=()=>{
+        adminLoginMode=!adminLoginMode;
+        idInput.value=adminLoginMode ? ADMIN_ID : '';idInput.readOnly=adminLoginMode;pwInput.value='';pwInput.inputMode=adminLoginMode ? 'text':'numeric';
+        pwInput.placeholder=adminLoginMode ? '관리자 비밀번호':'비밀번호 (숫자 3자리)';
+        document.getElementById('admin-login-toggle').textContent=adminLoginMode ? '일반 로그인으로 돌아가기':'관리자 로그인';
+        document.querySelector('.hint').textContent=adminLoginMode ? '관리자는 모든 메뉴와 대화를 삭제할 수 있어요.':'처음 온 이름은 자동으로 등록돼요.';
+    };
+    menuInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing){e.preventDefault();throwMenu();}});
+    new ResizeObserver(()=>{if(engine)window.dispatchEvent(new Event('resize'));}).observe(arenaEl);
+
 </script>
 </body>
 </html>
