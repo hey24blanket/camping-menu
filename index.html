@@ -603,6 +603,23 @@ h2 { font-size:22px; letter-spacing:-.6px; margin-top:7px; }
 }
 @media(prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important; transition:none!important; } }
 
+
+.mobile-navigation { display:none; }
+@media(max-width:700px) {
+ .mobile-navigation { display:flex; flex:0 0 auto; gap:8px; padding:10px 14px; border-bottom:1px solid #d3ddcd; }
+ .mobile-navigation button { flex:1; padding:9px; border:1px solid #ced9c5; border-radius:24px; font-size:14px; color:#64745b; }
+ .mobile-navigation button[aria-pressed=true] { background:#234d3e; border-color:#234d3e; color:#fff; }
+ .workspace { display:flex; flex-direction:column; }
+ .arena-panel { flex:1; min-height:0; }
+ #community-panel { display:none; flex:1; border:0; }
+ #main-page.show-chat .arena-panel { display:none; }
+ #main-page.show-chat #community-panel { display:flex; }
+ #main-page.show-chat #bottom-bar { display:none; }
+ #main-page.show-chat .composer { padding-bottom:max(10px,env(safe-area-inset-bottom)); }
+ .arena-heading { padding:18px 16px 8px; display:block; }
+ .arena-heading h2 { font-size:20px; }
+ .arena-heading p { font-size:12px; margin-top:7px; }
+}
     </style>
 </head>
 <body>
@@ -649,6 +666,7 @@ h2 { font-size:22px; letter-spacing:-.6px; margin-top:7px; }
             <div class="brand"><span class="small-date">October 3</span><strong>쳐묵 기행</strong></div>
             <div class="top-actions"><span id="user-badge"></span><button id="modal-btn">메뉴 <span id="menu-count">0</span></button><button id="logout-btn" aria-label="로그아웃">나가기</button></div>
         </div>
+        <nav class="mobile-navigation" aria-label="화면 선택"><button id="mobile-menus" aria-pressed="true">메뉴 공</button><button id="mobile-chat" aria-pressed="false">전체 채팅</button></nav>
         <div class="workspace">
             <aside id="community-panel" aria-label="전체 채팅">
                 <div class="panel-heading"><div><span class="eyebrow">AROUND THE TABLE</span><h2>우리들의 이야기</h2></div><span class="chat-symbol" aria-hidden="true">↗</span></div>
@@ -872,7 +890,7 @@ h2 { font-size:22px; letter-spacing:-.6px; margin-top:7px; }
         const totalBaseArea = menus.reduce((acc, m) => acc + Math.PI * Math.pow(m.baseRadius, 2), 0);
         const scaleFactor = Math.sqrt(Math.min(1, (arenaWidth * arenaHeight * 0.34) / totalBaseArea));
         menus.forEach(m => {
-            const targetRadius = Math.max(30, m.baseRadius * scaleFactor);
+            const targetRadius = Math.max(40, m.baseRadius * scaleFactor);
             const ratio = targetRadius / m.radius;
             Body.scale(m.body, ratio, ratio);
             m.radius = targetRadius;
@@ -897,7 +915,7 @@ h2 { font-size:22px; letter-spacing:-.6px; margin-top:7px; }
     }
 
     window.addEventListener('resize', () => {
-        if (!engine) return;
+        if (!engine || !arenaEl.clientWidth || !arenaEl.clientHeight) return;
         arenaWidth = arenaEl.clientWidth;
         arenaHeight = arenaEl.clientHeight;
         createBoundaries();
@@ -1200,7 +1218,7 @@ h2 { font-size:22px; letter-spacing:-.6px; margin-top:7px; }
         activeSuggestionBallId = ballId;
         applyChatFocus(ballId);
         selectRoom(ballId);
-        document.getElementById('community-panel').classList.add('mobile-open');
+        setMobileView('chat');
     }
     function closeSuggestionMode() {
         activeSuggestionBallId = null;
@@ -1235,6 +1253,14 @@ h2 { font-size:22px; letter-spacing:-.6px; margin-top:7px; }
         modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
         if (modal.style.display === 'flex') requestAnimationFrame(updateListLayout);
     }
+    function setMobileView(view) {
+        document.getElementById('main-page').classList.toggle('show-chat',view==='chat');
+        document.getElementById('mobile-menus').setAttribute('aria-pressed',view==='menus');
+        document.getElementById('mobile-chat').setAttribute('aria-pressed',view==='chat');
+        if(engine) window.dispatchEvent(new Event('resize'));
+    }
+    document.getElementById('mobile-menus').onclick=()=>{closeSuggestionMode();setMobileView('menus');};
+    document.getElementById('mobile-chat').onclick=()=>{closeSuggestionMode();selectRoom(null);setMobileView('chat');};
     const pendingLikes = new Set();
     async function toggleLike(id) {
         if (!currentUser || pendingLikes.has(id)) return;
